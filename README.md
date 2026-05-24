@@ -2,7 +2,7 @@
   <img src="https://cdn.modrinth.com/data/cached_images/a86f3a6697bac060335cb751c4b4154f85576d34_0.webp" alt="WhereIsMyStuff? Banner" width="800">
 </p>
 
-# <img src="https://cdn.modrinth.com/data/cached_images/78a4d60f719c3ae86938705c7504e8192a3da363_0.webp" alt="WIMS Icon" width="40" align="center"> WhereIsMyStuff? (WIMS)
+# WhereIsMyStuff? (WIMS)
 
 <p align="center">
   <a href="https://modrinth.com/mod/wims">
@@ -23,7 +23,7 @@ No more inventory clutter, no more sorting hassle, and no more guessing!
 
 ---
 
-## 📽️ Preview & Gameplay Showcase
+## 📽️ Preview
 
 WIMS works seamlessly without any configuration. Here is how it behaves in practice:
 
@@ -55,7 +55,7 @@ WIMS works seamlessly without any configuration. Here is how it behaves in pract
 
 ---
 
-## ✨ Why WIMS? (Comparison)
+## ✨ Comparison
 
 Many mods attempt to solve death recovery, but they either change vanilla gameplay too much or require server installation. **WIMS** is designed to keep vanilla balance while offering pure client-side convenience.
 
@@ -69,7 +69,7 @@ Many mods attempt to solve death recovery, but they either change vanilla gamepl
 
 ---
 
-## 🚀 Key Features
+## 🚀 Features
 
 *   **👻 Elegant Ghost Slots:** Displays lost items with a highly compatible, cross-version safe **55% opacity dark dimming overlay (`0x8C000000`)** in their exact pre-death slots, completely avoiding any rendering or `RenderSystem` version mismatches.
 *   **🔌 Zero Server Dependency:** Plays perfectly on singleplayer, LAN, Realms, vanilla servers, and heavily-modded multiplayer networks. 
@@ -82,7 +82,7 @@ Many mods attempt to solve death recovery, but they either change vanilla gamepl
 
 ---
 
-## 🛠️ How It Works (Step-by-Step)
+## 🛠️ Mechanics
 
 1.  **Death Snapshot:** The exact tick you die, WIMS captures a client-side clone of your inventory slots (0-40, main inventory, hotbar, armor, offhand).
 2.  **Ghosting Stage:** Upon respawn, empty slots containing your lost items render their icons covered by an elegant 55% opacity dark vignette overlay with item count labels.
@@ -91,20 +91,19 @@ Many mods attempt to solve death recovery, but they either change vanilla gamepl
 
 ---
 
-## 📦 Requirements & Installation
+## 📦 Installation
 
-### 🎮 Supported Versions
+### 🎮 Versions
 
 While WIMS is programmatically compatible with the entire range of Minecraft versions, we manually test specific major releases to guarantee absolute stability:
 
-| Minecraft Version | Compatibility | Manually Tested & Verified | Status |
-| :--- | :---: | :---: | :---: |
-| **1.21.4** | Yes | ⭐ **Yes** | **Stable** |
-| **1.21.5 - 1.21.9** | Yes | 🔄 *Community Supported* | **Compatible** |
-| **1.21.10** | Yes | ⭐ **Yes** | **Stable** |
-| **1.21.11** | Yes | ⭐ **Yes** | **Stable** |
+| Version | Status | Compatibility |
+| :--- | :---: | :---: |
+| **1.21.4** | **Stable** | ⭐ Verified |
+| **1.21.5 - 1.21.9** | **Compatible** | 🔄 Community Support |
+| **1.21.10 - 1.21.11** | **Stable** | ⭐ Verified |
 
-### 🚀 Getting Started
+### 🚀 Setup
 
 1.  Make sure you are running a supported Minecraft version from the list above.
 2.  Install [Fabric Loader](https://fabricmc.net/) (0.16.9 or newer).
@@ -113,7 +112,7 @@ While WIMS is programmatically compatible with the entire range of Minecraft ver
 
 ---
 
-## 🏷️ Search Keywords & Tags
+## 🏷️ Tags
 
 *   **Categories:** QoL (Quality of Life), Utility, Inventory, Client-side
 *   **Keywords:** death cache, death inventory, corpse finder, keep inventory alternative, client-side gravestone, visual death recovery, slot helper, fabric death mod, lost item tracker, minecraft 1.21 client mods
