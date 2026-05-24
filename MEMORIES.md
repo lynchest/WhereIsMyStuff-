@@ -30,3 +30,6 @@
 - **Yapıldı:** Blok ghost şeffaflığı için shader reset öncesi context.draw() çağrısı eklendi. | **Etki:** HandledScreenMixin.java
 - **Yapıldı:** Blok modellerinin opak çizilmesini önleyen ItemRendererMixin (opaque/cutout -> translucent yönlendirmesi) eklendi. | **Etki:** ItemRendererMixin.java, HandledScreenMixin.java, WimsMod.java, wims.mixins.json
 - **Yapıldı:** README.md Modrinth SEO'su, karşılaştırma tablosu ve arama anahtar kelimeleriyle optimize edildi. | **Etki:** README.md
+- **Yapıldı:** icon.png, banner.png ve icon_ghost.png belirlendi, mod varlıklarına ve README.md'ye eklendi. | **Etki:** src/main/resources/assets/whereismystuff/icon.png, README.md, PROGRESS.md
+
+

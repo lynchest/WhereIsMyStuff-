@@ -1,8 +1,21 @@
-# 🔍 WhereIsMyStuff? (WIMS) — Client-Side Death Inventory Ghosting QoL Mod
+<p align="center">
+  <img src="media/banner.png" alt="WhereIsMyStuff? Banner" width="800">
+</p>
 
-[![Modrinth](https://img.shields.io/badge/Modrinth-v0.1.0-green.svg)](https://modrinth.com/mod/wims)
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.21.4-blue.svg)](https://minecraft.net/)
-[![Fabric](https://img.shields.io/badge/Fabric-Loader-lightgrey.svg)](https://fabricmc.net/)
+# <img src="media/icon_ghost.png" width="40" align="center"> WhereIsMyStuff? (WIMS) — Client-Side Death Inventory Ghosting QoL Mod
+
+<p align="center">
+  <a href="https://modrinth.com/mod/wims">
+    <img src="https://img.shields.io/badge/Modrinth-v0.1.0-green.svg" alt="Modrinth">
+  </a>
+  <a href="https://minecraft.net/">
+    <img src="https://img.shields.io/badge/Minecraft-1.21.4-blue.svg" alt="Minecraft">
+  </a>
+  <a href="https://fabricmc.net/">
+    <img src="https://img.shields.io/badge/Fabric-Loader-lightgrey.svg" alt="Fabric">
+  </a>
+</p>
+
 
 Tired of losing your items upon death and forgetting exactly which slot your enchanted sword, pickaxe, or food were in? **WhereIsMyStuff? (WIMS)** is the ultimate client-side QoL mod for Minecraft that visually caches your inventory upon death and renders faded **ghost icons** in empty slots until you recover them.
 
@@ -20,7 +33,7 @@ No more inventory clutter, no more sorting hassle, and no more guessing!
 
 Many mods attempt to solve death recovery, but they either change vanilla gameplay too much or require server installation. **WIMS** is designed to keep vanilla balance while offering pure client-side convenience.
 
-| Feature | Vanilla Default | Gravestone / Corpse Mods | `/keepInventory true` | **WIMS (WhereIsMyStuff?)** |
+| Feature | Vanilla Default | Gravestone / Corpse Mods | `/keepInventory true` | **<img src="media/icon_ghost.png" width="18" align="center"> WIMS (WhereIsMyStuff?)** |
 | :--- | :---: | :---: | :---: | :---: |
 | **100% Client-Side Only** | Yes | ❌ No (Requires Server) | Yes | **⭐ Yes (Works everywhere!)** |
 | **Vanilla Server Compatible** | Yes | ❌ No | Yes | **⭐ Yes (Hypixel, Realms, etc.)** |
