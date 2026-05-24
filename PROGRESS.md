@@ -56,7 +56,7 @@
 ---
 
 ## Phase 5 — Release
-- [ ] `README.md` yazıldı (Modrinth description)
+- [x] `README.md` yazıldı (Modrinth description)
 - [ ] Mod ikonu eklendi (`icon.png`, 512×512)
 - [ ] `CHANGELOG.md` → v0.1.0 girişi
 - [x] Build temiz: `./gradlew build` → `.jar` üretildi
