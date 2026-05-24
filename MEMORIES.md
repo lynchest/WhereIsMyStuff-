@@ -60,6 +60,7 @@
 - **Yapıldı:** Envanter arkaplan karartmalı (dimming) sisteme ait oynanış ekran görüntüleri (media/2.png, media/3.png) oyun içi orijinal ekran görüntüleriyle güncellendi. | **Etki:** media/2.png, media/3.png
 - **Yapıldı:** README.md ve bellek/kod tabanı çelişkileri giderildi; arkaplan karartma sistemi ve otomatik slot takas özelliği README'ye eklendi. | **Etki:** README.md
 - **Yapıldı:** Mod lisansı CC0'dan GNU GPL v3.0'a taşındı, ilgili tüm meta veriler ve belgeler güncellendi. | **Etki:** LICENSE, README.md, src/main/resources/fabric.mod.json
+- **Yapıldı:** Modrinth görsel boyutu sınırı için tüm aktif resimler gözle fark edilemeyecek şekilde 1MB altına optimize edildi. | **Etki:** media/banner.png, media/1.png, media/2.png, media/3.png
 
 
 
