@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 public class WimsMod implements ModInitializer {
     public static final String MOD_ID = "whereismystuff";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static boolean renderingGhostItem = false;
 
     private static float lastHealth = -1f;
     private static int damageCooldown = 0;

@@ -5,7 +5,8 @@
 	"client": [
 		"DeathScreenMixin",
 		"HandledScreenMixin",
-		"InventorySyncMixin"
+		"InventorySyncMixin",
+		"ItemRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

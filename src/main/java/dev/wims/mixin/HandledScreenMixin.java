@@ -51,10 +51,12 @@ public abstract class HandledScreenMixin {
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShaderColor(1f, 1f, 1f, 0.35f);
 
+        WimsMod.renderingGhostItem = true;
         MinecraftClient client = MinecraftClient.getInstance();
         context.drawItem(ghost, slot.x, slot.y);
         context.drawStackOverlay(client.textRenderer, ghost, slot.x, slot.y);
         context.draw();
+        WimsMod.renderingGhostItem = false;
 
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
     }

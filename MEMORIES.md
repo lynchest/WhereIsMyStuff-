@@ -51,6 +51,8 @@
 - **Neresi etkilendi:** [WimsMod.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/WimsMod.java)
 - **Ne yapıldı:** 3D blok modellerinin envanterde şeffaf (ghost) görünmeme sorunu düzeltildi; `drawItem` ve `drawStackOverlay` çağrılarından sonra shader rengi sıfırlanmadan önce `context.draw()` çağrılarak çizimlerin doğru şeffaflıkla ekrana basılması garanti edildi.
 - **Neresi etkilendi:** [HandledScreenMixin.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/mixin/HandledScreenMixin.java)
+- **Ne yapıldı:** 3D blok modellerinin envanterde tamamen opak çizilme sorunu kökten çözüldü. `ItemRenderer.renderItem` metoduna `ItemRendererMixin` ile müdahale edilerek, ghost rendering esnasında opaque ve cutout katmanları dinamik olarak `translucent` (yarı saydam) katmana yönlendirildi ve `WimsMod.renderingGhostItem` flag'i ile kontrol sağlandı.
+- **Neresi etkilendi:** [ItemRendererMixin.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/mixin/ItemRendererMixin.java), [HandledScreenMixin.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/mixin/HandledScreenMixin.java), [WimsMod.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/WimsMod.java), [wims.mixins.json](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/resources/wims.mixins.json)
 
 
 
