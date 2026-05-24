@@ -49,6 +49,8 @@
 - **Neresi etkilendi:** [HandledScreenMixin.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/mixin/HandledScreenMixin.java), [DeathInventoryCache.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/cache/DeathInventoryCache.java)
 - **Ne yapıldı:** Ölüm ekranı açıldığında, istemci tarafındaki oyuncu entity'sinin hâlâ canlı ve dolu envanterli görünmesi nedeniyle oluşan çift yarış durumu (double race condition) tespit edildi; ölüm ekranındayken veya ölü iken envanter sync'i engellendi.
 - **Neresi etkilendi:** [WimsMod.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/WimsMod.java)
+- **Ne yapıldı:** 3D blok modellerinin envanterde şeffaf (ghost) görünmeme sorunu düzeltildi; `drawItem` ve `drawStackOverlay` çağrılarından sonra shader rengi sıfırlanmadan önce `context.draw()` çağrılarak çizimlerin doğru şeffaflıkla ekrana basılması garanti edildi.
+- **Neresi etkilendi:** [HandledScreenMixin.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/mixin/HandledScreenMixin.java)
 
 
 

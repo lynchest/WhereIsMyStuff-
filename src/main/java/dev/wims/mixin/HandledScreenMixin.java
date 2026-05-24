@@ -54,6 +54,7 @@ public abstract class HandledScreenMixin {
         MinecraftClient client = MinecraftClient.getInstance();
         context.drawItem(ghost, slot.x, slot.y);
         context.drawStackOverlay(client.textRenderer, ghost, slot.x, slot.y);
+        context.draw();
 
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
     }
