@@ -11,4 +11,7 @@
 - **Neresi etkilendi:** [gradle.properties](file:///Users/lynchest/Desktop/WhereIsMyStuff?/gradle.properties), [build.gradle](file:///Users/lynchest/Desktop/WhereIsMyStuff?/build.gradle), [ExampleClientMixin.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/client/java/com/example/client/mixin/ExampleClientMixin.java), [PROGRESS.md](file:///Users/lynchest/Desktop/WhereIsMyStuff?/PROGRESS.md)
 - **Ne yapıldı:** Phase 1 (Scaffold) tamamlandı; mod ID `whereismystuff` olarak güncellendi, client-side yapılandırması tamamlandı, mixin dosyası (`wims.mixins.json`) ve `WimsMod.java` oluşturuldu, şablon dosyaları temizlendi ve build doğrulandı.
 - **Neresi etkilendi:** [build.gradle](file:///Users/lynchest/Desktop/WhereIsMyStuff?/build.gradle), [fabric.mod.json](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/resources/fabric.mod.json), [wims.mixins.json](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/resources/wims.mixins.json), [WimsMod.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/WimsMod.java), [PROGRESS.md](file:///Users/lynchest/Desktop/WhereIsMyStuff?/PROGRESS.md)
+- **Ne yapıldı:** Phase 2 (Core Logic) tamamlandı; DeathInventoryCache.java yardımıyla ölüm sonrası envanter kopyalama mantığı implement edildi ve derleme testleri tamamlandı.
+- **Neresi etkilendi:** [DeathInventoryCache.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/cache/DeathInventoryCache.java), [PROGRESS.md](file:///Users/lynchest/Desktop/WhereIsMyStuff?/PROGRESS.md)
+
 

@@ -1,6 +1,6 @@
 # WIMS — Progress Tracker
 
-## Status: 🟡 Phase 1 Completed
+## Status: 🟡 Phase 2 Completed
 
 **Target:** Minecraft 1.21.4 · Fabric · Java 21  
 **Goal:** Çalışan bir mod yap, Modrinth'e yükle. Sürüm desteği sonra.
@@ -31,8 +31,8 @@
 ---
 
 ## Phase 2 — Core Logic
-- [ ] `DeathInventoryCache.java` → tüm metodlar implement edildi
-- [ ] Basit doğrulama: cache'e bir ItemStack yaz, oku, temizle — çalışıyor
+- [x] `DeathInventoryCache.java` → tüm metodlar implement edildi
+- [x] Basit doğrulama: cache'e bir ItemStack yaz, oku, temizle — çalışıyor
 
 ---
 
