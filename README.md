@@ -23,9 +23,35 @@ No more inventory clutter, no more sorting hassle, and no more guessing!
 
 ---
 
-## 📽️ Preview / Screenshots
+## 📽️ Preview & Gameplay Showcase
 
-*(Placeholder for gameplay GIF: Player dying, opening inventory to see translucent ghost items, picking up items, and watching them snap back into place)*
+WIMS works seamlessly without any configuration. Here is how it behaves in practice:
+
+<table border="0" align="center">
+  <tr>
+    <td align="center" valign="top" width="33%">
+      <h3>1. Before Death</h3>
+      <a href="media/1.png" target="_blank">
+        <img src="media/1.png" alt="Pre-death Inventory" width="100%" style="border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
+      </a>
+      <p align="left"><em>A typical fully loaded inventory with diamond armor, tools, and valuable materials before death.</em></p>
+    </td>
+    <td align="center" valign="top" width="33%">
+      <h3>2. After Death (Ghosting)</h3>
+      <a href="media/2.png" target="_blank">
+        <img src="media/2.png" alt="Ghost Inventory Icons" width="100%" style="border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
+      </a>
+      <p align="left"><em>Upon respawning, empty slots where items were lost display translucent ghost indicators (at 35% opacity) showing you exactly where each item belongs.</em></p>
+    </td>
+    <td align="center" valign="top" width="33%">
+      <h3>3. Partial Recovery</h3>
+      <a href="media/3.png" target="_blank">
+        <img src="media/3.png" alt="Partial Recovery Sync" width="100%" style="border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
+      </a>
+      <p align="left"><em>Picked up items automatically snap back to their original slots. Ghost icons remain visible for items you haven't recovered yet (like the helmet, leggings, boots, and axe).</em></p>
+    </td>
+  </tr>
+</table>
 
 ---
 
