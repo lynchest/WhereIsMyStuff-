@@ -84,10 +84,11 @@ publishing {
 tasks.named('remapJar') {
 	doLast {
 		def jarFile = archiveFile.get().asFile
+		def userHome = System.getProperty("user.home")
 		def destDirs = [
-			"/Users/lynchest/Library/Application Support/ModrinthApp/profiles/ModDeneme/mods/",
-			"/Users/lynchest/Library/Application Support/ModrinthApp/profiles/Mod deneme 1.21.11/mods/",
-			"/Users/lynchest/Library/Application Support/ModrinthApp/profiles/1.21.10/mods/"
+			"${userHome}/Library/Application Support/ModrinthApp/profiles/ModDeneme/mods/",
+			"${userHome}/Library/Application Support/ModrinthApp/profiles/Mod deneme 1.21.11/mods/",
+			"${userHome}/Library/Application Support/ModrinthApp/profiles/1.21.10/mods/"
 		]
 		destDirs.each { dirPath ->
 			def destDir = file(dirPath)

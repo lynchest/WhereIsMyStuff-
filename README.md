@@ -77,7 +77,7 @@ Many mods attempt to solve death recovery, but they either change vanilla gamepl
 *   **🔀 Occupant Relocation (Auto-Swap):** If a ghost slot gets occupied by another item before recovery (e.g. picking up dirt first), picking up the correct item later will **automatically relocate** the temporary occupant to another empty slot, restoring the correct item to its rightful original slot!
 *   **🔄 Partial Recovery Support:** Ghost indicators stay visible until the full stack count is recovered. Got back only 2 of your 5 lost diamonds? The ghost item remains with count `3` until they are all recovered!
 *   **⚡ High Performance:** Purely client-side, event-driven, and highly optimized. Features clean, on-demand mixin hooks to guarantee zero per-tick overhead or FPS stutter.
-*   **🪶 Featherweight Footprint:** The entire compiled jar size is **only ~58 KB**! Utilizing custom pixel-perfect color-quantized asset compression, WIMS provides top-tier visual convenience without bloating your modpack or increasing launch times.
+*   **🪶 Featherweight Footprint:** The entire compiled jar size is **only ~67 KB**! Utilizing custom pixel-perfect color-quantized asset compression, WIMS provides top-tier visual convenience without bloating your modpack or increasing launch times.
 *   **🔒 In-Memory Security:** Death snapshots are stored purely in memory. No disk clutter, no temporary file footprint, safe, temporary, and clean.
 
 ---
@@ -93,9 +93,20 @@ Many mods attempt to solve death recovery, but they either change vanilla gamepl
 
 ## 📦 Requirements & Installation
 
-Getting started is quick and easy:
+### 🎮 Supported & Verified Minecraft Versions
 
-1.  Make sure you are running Minecraft **1.21.4 - 1.21.11**.
+While WIMS is programmatically compatible with the entire range of Minecraft versions, we manually test specific major releases to guarantee absolute stability:
+
+| Minecraft Version | Compatibility | Manually Tested & Verified | Status |
+| :--- | :---: | :---: | :---: |
+| **1.21.4** | Yes | ⭐ **Yes** | **Stable** |
+| **1.21.5 - 1.21.9** | Yes | 🔄 *Community Supported* | **Compatible** |
+| **1.21.10** | Yes | ⭐ **Yes** | **Stable** |
+| **1.21.11** | Yes | ⭐ **Yes** | **Stable** |
+
+### 🚀 Getting Started
+
+1.  Make sure you are running a supported Minecraft version from the list above.
 2.  Install [Fabric Loader](https://fabricmc.net/) (0.16.9 or newer).
 3.  Download and place the [Fabric API](https://modrinth.com/mod/fabric-api) jar in your `mods` folder.
 4.  Drop the `whereismystuff-0.1.0.jar` into your `mods` folder and enjoy!
