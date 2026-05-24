@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="media/banner.png" alt="WhereIsMyStuff? Banner" width="800">
+  <img src="https://cdn.modrinth.com/data/cached_images/a86f3a6697bac060335cb751c4b4154f85576d34_0.webp" alt="WhereIsMyStuff? Banner" width="800">
 </p>
 
-# <img src="media/icon_ghost.png" width="40" align="center"> WhereIsMyStuff? (WIMS) — Client-Side Death Inventory Ghosting QoL Mod
+# <img src="https://cdn.modrinth.com/data/cached_images/78a4d60f719c3ae86938705c7504e8192a3da363_0.webp" alt="WIMS Icon" width="40" align="center"> WhereIsMyStuff? (WIMS)
 
 <p align="center">
   <a href="https://modrinth.com/mod/wims">
@@ -31,22 +31,22 @@ WIMS works seamlessly without any configuration. Here is how it behaves in pract
   <tr>
     <td align="center" valign="top" width="33%">
       <h3>1. Before Death</h3>
-      <a href="media/1.png" target="_blank">
-        <img src="media/1.png" alt="Pre-death Inventory" width="100%" style="border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
+      <a href="https://cdn.modrinth.com/data/cached_images/5796f1b0b800b1ab02ae378bf23d3547f60e0444.png" target="_blank">
+        <img src="https://cdn.modrinth.com/data/cached_images/5796f1b0b800b1ab02ae378bf23d3547f60e0444.png" alt="Pre-death Inventory" width="100%" style="border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
       </a>
       <p align="left"><em>A typical fully loaded inventory with diamond armor, tools, and valuable materials before death.</em></p>
     </td>
     <td align="center" valign="top" width="33%">
       <h3>2. After Death (Ghosting)</h3>
-      <a href="media/2.png" target="_blank">
-        <img src="media/2.png" alt="Ghost Inventory Icons" width="100%" style="border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
+      <a href="https://cdn.modrinth.com/data/cached_images/ac8d9e4e02f76a53970227caaf63c3305719b467.png" target="_blank">
+        <img src="https://cdn.modrinth.com/data/cached_images/ac8d9e4e02f76a53970227caaf63c3305719b467.png" alt="Ghost Inventory Icons" width="100%" style="border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
       </a>
       <p align="left"><em>Upon respawning, empty slots where items were lost display ghost items covered by a 55% opacity dark dimming overlay, showing you exactly where each item belongs.</em></p>
     </td>
     <td align="center" valign="top" width="33%">
       <h3>3. Partial Recovery</h3>
-      <a href="media/3.png" target="_blank">
-        <img src="media/3.png" alt="Partial Recovery Sync" width="100%" style="border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
+      <a href="https://cdn.modrinth.com/data/cached_images/1e35a99d5212b3987424921b9f13f1b850239255.png" target="_blank">
+        <img src="https://cdn.modrinth.com/data/cached_images/1e35a99d5212b3987424921b9f13f1b850239255.png" alt="Partial Recovery Sync" width="100%" style="border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
       </a>
       <p align="left"><em>Picked up items automatically snap back to their original slots. Ghost indicators remain visible for items you haven't recovered yet (like the helmet, leggings, boots, and axe).</em></p>
     </td>
@@ -55,11 +55,11 @@ WIMS works seamlessly without any configuration. Here is how it behaves in pract
 
 ---
 
-## ✨ Why Choose WIMS? (Comparison)
+## ✨ Why WIMS? (Comparison)
 
 Many mods attempt to solve death recovery, but they either change vanilla gameplay too much or require server installation. **WIMS** is designed to keep vanilla balance while offering pure client-side convenience.
 
-| Feature | Vanilla Default | Gravestone / Corpse Mods | `/keepInventory true` | **<img src="media/icon_ghost.png" width="18" align="center"> WIMS (WhereIsMyStuff?)** |
+| Feature | Vanilla Default | Gravestone / Corpse Mods | `/keepInventory true` | **<img src="https://cdn.modrinth.com/data/cached_images/78a4d60f719c3ae86938705c7504e8192a3da363_0.webp" alt="WIMS Icon" width="18" align="center"> WIMS (WhereIsMyStuff?)** |
 | :--- | :---: | :---: | :---: | :---: |
 | **100% Client-Side Only** | Yes | ❌ No (Requires Server) | Yes | **⭐ Yes (Works everywhere!)** |
 | **Vanilla Server Compatible** | Yes | ❌ No | Yes | **⭐ Yes (Hypixel, Realms, etc.)** |
@@ -93,7 +93,7 @@ Many mods attempt to solve death recovery, but they either change vanilla gamepl
 
 ## 📦 Requirements & Installation
 
-### 🎮 Supported & Verified Minecraft Versions
+### 🎮 Supported Versions
 
 While WIMS is programmatically compatible with the entire range of Minecraft versions, we manually test specific major releases to guarantee absolute stability:
 
