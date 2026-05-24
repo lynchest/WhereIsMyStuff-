@@ -52,6 +52,14 @@
 - **Yapıldı:** Şeffaflık çalışmayan durumlar için ghost slotlara özel karartma/dimming overlay efekti (context.fill) eklendi. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
 - **Yapıldı:** HandledScreenMixin'deki 1.21.4 enjeksiyonu intermediary method adına geri döndürülerek fatal crash hatası düzeltildi. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
 - **Yapıldı:** 1.21.4'te RenderSystem eşya şeffaflığı geri getirildi; 1.21.11 enjeksiyonunda ise sadece envanter arka plan karartma overlay (context.fill) bırakılarak ayrıştırıldı. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
+- **Yapıldı:** 1.21.10 envanter açma NoSuchMethodError çöküşü, drawSlot_1_21_4 içindeki uyumsuz ve gereksiz RenderSystem çağrıları kaldırılarak tamamen çözüldü. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
+- **Yapıldı:** 1.21.10 envanter açma DrawContext.draw() (method_51452) NoSuchMethodError çöküşü, drawSlot_1_21_4 içindeki gereksiz çağrı kaldırılarak çözüldü. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
+- **Yapıldı:** 1.21.10 ve 1.21.4'te ghost slot şeffaflığı (setShaderColor) ve karartma arka planı (context.fill) içeren hibrit, çökmesiz çizim mantığı eklendi. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
+- **Yapıldı:** 1.21.10 RenderSystem.setShaderColor NoSuchMethodError çöküşü, tüm RenderSystem çağrıları kaldırılarak ve DrawContext.fill ile karartılmış ghost slot tasarımıyla tamamen çözüldü. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
+- **Yapıldı:** Ghost slotun önünde farklı bir eşya olduğunda, doğru eşya alındığında otomatik swap-takas mantığı eklendi. | **Etki:** src/main/java/dev/wims/WimsMod.java
+- **Yapıldı:** Envanter arkaplan karartmalı (dimming) sisteme ait oynanış ekran görüntüleri (media/2.png, media/3.png) oyun içi orijinal ekran görüntüleriyle güncellendi. | **Etki:** media/2.png, media/3.png
+- **Yapıldı:** README.md ve bellek/kod tabanı çelişkileri giderildi; arkaplan karartma sistemi ve otomatik slot takas özelliği README'ye eklendi. | **Etki:** README.md
+
 
 
 

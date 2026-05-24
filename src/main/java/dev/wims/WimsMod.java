@@ -180,6 +180,52 @@ public class WimsMod implements ModInitializer {
                                     }
                                 }
                             }
+                        } else if (currentTarget != null && !currentTarget.isEmpty() && currentTarget.getItem() != cached.getItem()) {
+                            // Target slot is blocked by a different item. Look for a source slot containing the correct (cached) item
+                            for (int sourceSlotId = 0; sourceSlotId <= 40; sourceSlotId++) {
+                                if (sourceSlotId == targetSlotId) {
+                                    continue;
+                                }
+
+                                ItemStack sourceStack = inventory.getStack(sourceSlotId);
+                                if (sourceStack != null && !sourceStack.isEmpty() && sourceStack.getItem() == cached.getItem()) {
+                                    
+                                    // Make sure we don't steal from a ghost slot that has already been correctly restored
+                                    boolean isValidSource = false;
+                                    if (!DeathInventoryCache.has(sourceSlotId)) {
+                                        isValidSource = true;
+                                    } else {
+                                        ItemStack sourceCached = DeathInventoryCache.get(sourceSlotId);
+                                        if (sourceStack.getItem() != sourceCached.getItem()) {
+                                            isValidSource = true;
+                                        }
+                                    }
+
+                                    if (isValidSource) {
+                                        int sourceHandlerId = getPlayerScreenHandlerSlotId(sourceSlotId);
+                                        int targetHandlerId = getPlayerScreenHandlerSlotId(targetSlotId);
+
+                                        if (sourceHandlerId != -1 && targetHandlerId != -1) {
+                                            int syncId = client.player.currentScreenHandler.syncId;
+
+                                            log("Swapping occupying item " + currentTarget.getItem() + " in slot " + targetSlotId 
+                                                    + " with correct item " + sourceStack.getItem() + " from slot " + sourceSlotId);
+
+                                            // 1. Pick up correct item from source
+                                            client.interactionManager.clickSlot(syncId, sourceHandlerId, 0, SlotActionType.PICKUP, client.player);
+
+                                            // 2. Place correct item in target and pick up occupying item
+                                            client.interactionManager.clickSlot(syncId, targetHandlerId, 0, SlotActionType.PICKUP, client.player);
+
+                                            // 3. Place occupying item in source slot (which is now empty)
+                                            client.interactionManager.clickSlot(syncId, sourceHandlerId, 0, SlotActionType.PICKUP, client.player);
+
+                                            actionTaken = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     if (actionTaken) {

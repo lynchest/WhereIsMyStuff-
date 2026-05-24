@@ -1,6 +1,5 @@
 package dev.wims.mixin;
 
-import dev.wims.WimsMod;
 import dev.wims.cache.DeathInventoryCache;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,7 +10,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -31,18 +29,12 @@ public abstract class HandledScreenMixin {
 
         MinecraftClient client = MinecraftClient.getInstance();
 
-        // 1.21.4 Transparency rendering using RenderSystem
-        com.mojang.blaze3d.systems.RenderSystem.enableBlend();
-        com.mojang.blaze3d.systems.RenderSystem.defaultBlendFunc();
-        com.mojang.blaze3d.systems.RenderSystem.setShaderColor(1f, 1f, 1f, 0.35f);
-
-        WimsMod.renderingGhostItem = true;
         context.drawItem(ghost, slot.x, slot.y);
-        context.drawStackOverlay(client.textRenderer, ghost, slot.x, slot.y);
-        context.draw();
-        WimsMod.renderingGhostItem = false;
 
-        com.mojang.blaze3d.systems.RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+        // Draw the dark dimming overlay to indicate a ghost slot (cross-version safe)
+        context.fill(slot.x, slot.y, slot.x + 16, slot.y + 16, 0x8C000000);
+
+        context.drawStackOverlay(client.textRenderer, ghost, slot.x, slot.y);
     }
 
     // 1.21.11 — drawSlot(DrawContext, Slot, int, int)

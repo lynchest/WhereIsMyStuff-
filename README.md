@@ -41,14 +41,14 @@ WIMS works seamlessly without any configuration. Here is how it behaves in pract
       <a href="media/2.png" target="_blank">
         <img src="media/2.png" alt="Ghost Inventory Icons" width="100%" style="border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
       </a>
-      <p align="left"><em>Upon respawning, empty slots where items were lost display translucent ghost indicators (at 35% opacity) showing you exactly where each item belongs.</em></p>
+      <p align="left"><em>Upon respawning, empty slots where items were lost display ghost items covered by a 55% opacity dark dimming overlay, showing you exactly where each item belongs.</em></p>
     </td>
     <td align="center" valign="top" width="33%">
       <h3>3. Partial Recovery</h3>
       <a href="media/3.png" target="_blank">
         <img src="media/3.png" alt="Partial Recovery Sync" width="100%" style="border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
       </a>
-      <p align="left"><em>Picked up items automatically snap back to their original slots. Ghost icons remain visible for items you haven't recovered yet (like the helmet, leggings, boots, and axe).</em></p>
+      <p align="left"><em>Picked up items automatically snap back to their original slots. Ghost indicators remain visible for items you haven't recovered yet (like the helmet, leggings, boots, and axe).</em></p>
     </td>
   </tr>
 </table>
@@ -64,19 +64,20 @@ Many mods attempt to solve death recovery, but they either change vanilla gamepl
 | **100% Client-Side Only** | Yes | ❌ No (Requires Server) | Yes | **⭐ Yes (Works everywhere!)** |
 | **Vanilla Server Compatible** | Yes | ❌ No | Yes | **⭐ Yes (Hypixel, Realms, etc.)** |
 | **Keeps Vanilla Death Challenge** | Yes | Yes | ❌ No (No item drop penalty) | **⭐ Yes (Items still drop & despawn)** |
-| **Visually Remembers Item Slots** | ❌ No | ❌ No | Yes | **⭐ Yes (35% Ghost items)** |
+| **Visually Remembers Item Slots** | ❌ No | ❌ No | Yes | **⭐ Yes (Dimmed ghost overlay)** |
 | **Automatic Slot Restoration** | ❌ No | ❌ No | Yes | **⭐ Yes (Snaps items back)** |
 
 ---
 
 ## 🚀 Key Features
 
-*   **👻 Translucent Ghost Items:** Displays lost items at **35% opacity** in their exact pre-death slots when viewing any player inventory screen.
+*   **👻 Elegant Ghost Slots:** Displays lost items with a highly compatible, cross-version safe **55% opacity dark dimming overlay (`0x8C000000`)** in their exact pre-death slots, completely avoiding any rendering or `RenderSystem` version mismatches.
 *   **🔌 Zero Server Dependency:** Plays perfectly on singleplayer, LAN, Realms, vanilla servers, and heavily-modded multiplayer networks. 
 *   **🎯 Smart Slot Restore:** Picked-up recovered items are automatically routed back to their original slots, saving you from tedious manual sorting.
+*   **🔀 Occupant Relocation (Auto-Swap):** If a ghost slot gets occupied by another item before recovery (e.g. picking up dirt first), picking up the correct item later will **automatically relocate** the temporary occupant to another empty slot, restoring the correct item to its rightful original slot!
 *   **🔄 Partial Recovery Support:** Ghost indicators stay visible until the full stack count is recovered. Got back only 2 of your 5 lost diamonds? The ghost item remains with count `3` until they are all recovered!
 *   **⚡ High Performance:** Purely client-side, event-driven, and highly optimized. Features clean, on-demand mixin hooks to guarantee zero per-tick overhead or FPS stutter.
-*   **🪶 Featherweight Footprint:** The entire compiled jar size is **only ~57 KB**! Utilizing custom pixel-perfect color-quantized asset compression, WIMS provides top-tier visual convenience without bloating your modpack or increasing launch times.
+*   **🪶 Featherweight Footprint:** The entire compiled jar size is **only ~58 KB**! Utilizing custom pixel-perfect color-quantized asset compression, WIMS provides top-tier visual convenience without bloating your modpack or increasing launch times.
 *   **🔒 In-Memory Security:** Death snapshots are stored purely in memory. No disk clutter, no temporary file footprint, safe, temporary, and clean.
 
 ---
@@ -84,8 +85,8 @@ Many mods attempt to solve death recovery, but they either change vanilla gamepl
 ## 🛠️ How It Works (Step-by-Step)
 
 1.  **Death Snapshot:** The exact tick you die, WIMS captures a client-side clone of your inventory slots (0-40, main inventory, hotbar, armor, offhand).
-2.  **Ghosting Stage:** Upon respawn, empty slots containing your lost items render semi-transparent ghost icons and item count labels.
-3.  **Active Syncing:** As you pick up items from your death point, WIMS verifies if the item type matches. If it does, the items snap back into their original slots.
+2.  **Ghosting Stage:** Upon respawn, empty slots containing your lost items render their icons covered by an elegant 55% opacity dark vignette overlay with item count labels.
+3.  **Active Syncing & Swapping:** As you pick up items from your death point, WIMS routes them back to their original slots. If a slot is already blocked by a different item, WIMS automatically relocates the blocker to an empty slot to make room for your recovered item!
 4.  **Automatic Clear:** Once the slot meets or exceeds the lost stack count, the ghost state is cleared.
 
 ---
