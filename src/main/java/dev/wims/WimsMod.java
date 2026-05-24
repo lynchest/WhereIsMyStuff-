@@ -3,6 +3,7 @@ package dev.wims;
 import dev.wims.cache.DeathInventoryCache;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.SlotActionType;
@@ -22,24 +23,20 @@ public class WimsMod implements ModInitializer {
     private static int prevCooldown = -1;
 
     public static void log(String message) {
-        try {
-            java.nio.file.Files.write(
-                java.nio.file.Paths.get("/Users/lynchest/Desktop/WhereIsMyStuff?/wims_debug.log"),
-                ("[" + java.time.LocalTime.now() + "] " + message + "\n").getBytes(),
-                java.nio.file.StandardOpenOption.CREATE,
-                java.nio.file.StandardOpenOption.APPEND
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        LOGGER.info("[WIMS-Debug] {}", message);
     }
 
     @Override
     public void onInitialize() {
-        try {
-            java.nio.file.Files.deleteIfExists(java.nio.file.Paths.get("/Users/lynchest/Desktop/WhereIsMyStuff?/wims_debug.log"));
-        } catch (Exception e) {}
         log("WIMS Mod Initialized!");
+
+        // Clear cache and snapshots on disconnect to prevent carrying ghosts across different servers/worlds
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            log("Disconnected from server. Resetting inventory cache.");
+            DeathInventoryCache.reset();
+            lastHealth = -1f;
+            damageCooldown = 0;
+        });
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client.player == null) {

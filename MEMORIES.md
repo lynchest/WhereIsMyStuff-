@@ -32,5 +32,10 @@
 - **Yapıldı:** README.md Modrinth SEO'su, karşılaştırma tablosu ve arama anahtar kelimeleriyle optimize edildi. | **Etki:** README.md
 - **Yapıldı:** icon.png, banner.png ve icon_ghost.png belirlendi, mod varlıklarına ve README.md'ye eklendi. | **Etki:** src/main/resources/assets/whereismystuff/icon.png, README.md, PROGRESS.md
 - **Yapıldı:** media klasöründeki oynanış ekran görüntüleri doğrulandı ve README.md dosyasına entegre edildi. | **Etki:** README.md
+- **Yapıldı:** CHANGELOG.md dosyası oluşturuldu ve v0.1.0 sürüm notları yazıldı. | **Etki:** CHANGELOG.md, PROGRESS.md
+- **Yapıldı:** Üretim (production) sürümü öncesi disk loglama kaldırıldı, per-tick log flood engellendi. | **Etki:** WimsMod.java, HandledScreenMixin.java, DeathInventoryCache.java
+- **Yapıldı:** Oyuncu sunucudan veya dünyadan ayrıldığında hayalet envanteri temizleyen DISCONNECT dinleyicisi eklendi. | **Etki:** WimsMod.java, DeathInventoryCache.java
+- **Yapıldı:** Pixel art ikon, en yakın komşu (Nearest Neighbor) ile 256x256 piksele küçültüldü; .jar boyutu %95 küçülerek 57 KB oldu. | **Etki:** icon.png, src/main/resources/assets/whereismystuff/icon.png
+- **Yapıldı:** README.md ve CHANGELOG.md dosyalarına modun yüksek performans ve 57 KB tüy sıklet boyutu eklendi. | **Etki:** README.md, CHANGELOG.md
 
 

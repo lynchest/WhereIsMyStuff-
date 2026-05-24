@@ -75,8 +75,9 @@ Many mods attempt to solve death recovery, but they either change vanilla gamepl
 *   **🔌 Zero Server Dependency:** Plays perfectly on singleplayer, LAN, Realms, vanilla servers, and heavily-modded multiplayer networks. 
 *   **🎯 Smart Slot Restore:** Picked-up recovered items are automatically routed back to their original slots, saving you from tedious manual sorting.
 *   **🔄 Partial Recovery Support:** Ghost indicators stay visible until the full stack count is recovered. Got back only 2 of your 5 lost diamonds? The ghost item remains with count `3` until they are all recovered!
-*   **⚡ High Performance:** Purely client-side and event-driven. Optimized algorithms ensure zero tick-based performance drops or FPS stutter.
-*   **🔒 In-Memory Security:** Stored in-memory to prevent disk clutter. Safe, temporary, and clean.
+*   **⚡ High Performance:** Purely client-side, event-driven, and highly optimized. Features clean, on-demand mixin hooks to guarantee zero per-tick overhead or FPS stutter.
+*   **🪶 Featherweight Footprint:** The entire compiled jar size is **only ~57 KB**! Utilizing custom pixel-perfect color-quantized asset compression, WIMS provides top-tier visual convenience without bloating your modpack or increasing launch times.
+*   **🔒 In-Memory Security:** Death snapshots are stored purely in memory. No disk clutter, no temporary file footprint, safe, temporary, and clean.
 
 ---
 

@@ -29,8 +29,6 @@ public abstract class HandledScreenMixin {
             return;
         }
 
-        WimsMod.log("drawSlot: slotIndex = " + slot.getIndex() + ", hasStack = " + slot.hasStack() + ", inventoryClass = " + slot.inventory.getClass().getName());
-
         if (slot.hasStack()) {
             return;
         }
@@ -39,7 +37,6 @@ public abstract class HandledScreenMixin {
         }
 
         int slotId = slot.getIndex();
-        WimsMod.log("drawSlot PlayerInventory slot: slotId = " + slotId + ", hasInCache = " + DeathInventoryCache.has(slotId));
 
         if (!DeathInventoryCache.has(slotId)) {
             return;

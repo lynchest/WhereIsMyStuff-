@@ -58,21 +58,17 @@ public final class DeathInventoryCache {
         if (!hasItems) {
             // Inventory is empty but player appears alive — don't overwrite.
             // The snapshot from the last tick with items is still valid.
-            WimsMod.log("saveSnapshot: Inventory is empty, skipping snapshot update to protect previous.");
             return;
         }
 
         SNAPSHOT.clear();
-        int count = 0;
         for (int slotId = 0; slotId <= 40; slotId++) {
             ItemStack stack = inventory.getStack(slotId);
             if (stack != null && !stack.isEmpty()) {
                 SNAPSHOT.put(slotId, stack.copy());
-                count++;
             }
         }
         snapshotActive = true;
-        WimsMod.log("saveSnapshot: Saved " + count + " slots. active = " + snapshotActive);
     }
 
     // ──────────────────────────────────────────────────────────
@@ -138,6 +134,15 @@ public final class DeathInventoryCache {
      */
     public static void clearAll() {
         CACHE.clear();
+    }
+
+    /**
+     * Resets the entire cache and rolling snapshot to a clean state.
+     */
+    public static void reset() {
+        CACHE.clear();
+        SNAPSHOT.clear();
+        snapshotActive = false;
     }
 
     /**
