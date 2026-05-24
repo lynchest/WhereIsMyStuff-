@@ -27,14 +27,12 @@ public abstract class HandledScreenMixin {
         ItemStack ghost = DeathInventoryCache.get(slot.getIndex());
         if (ghost == null || ghost.isEmpty()) return;
 
-        MinecraftClient client = MinecraftClient.getInstance();
-
         context.drawItem(ghost, slot.x, slot.y);
 
         // Draw the dark dimming overlay to indicate a ghost slot (cross-version safe)
         context.fill(slot.x, slot.y, slot.x + 16, slot.y + 16, 0x8C000000);
 
-        context.drawStackOverlay(client.textRenderer, ghost, slot.x, slot.y);
+        context.drawStackOverlay(MinecraftClient.getInstance().textRenderer, ghost, slot.x, slot.y);
     }
 
     // 1.21.11 — drawSlot(DrawContext, Slot, int, int)
@@ -46,14 +44,12 @@ public abstract class HandledScreenMixin {
         ItemStack ghost = DeathInventoryCache.get(slot.getIndex());
         if (ghost == null || ghost.isEmpty()) return;
 
-        MinecraftClient client = MinecraftClient.getInstance();
-
         // 1.21.11 Rendering — No RenderSystem changes, no ItemRendererMixin (renderingGhostItem is false)
         context.drawItem(ghost, slot.x, slot.y);
         
         // Draw the dark dimming overlay to indicate a ghost slot on 1.21.11
         context.fill(slot.x, slot.y, slot.x + 16, slot.y + 16, 0x8C000000);
         
-        context.drawStackOverlay(client.textRenderer, ghost, slot.x, slot.y);
+        context.drawStackOverlay(MinecraftClient.getInstance().textRenderer, ghost, slot.x, slot.y);
     }
 }

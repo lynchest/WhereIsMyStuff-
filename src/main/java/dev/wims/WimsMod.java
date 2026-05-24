@@ -7,6 +7,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.SlotActionType;
+import java.util.HashMap;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +22,6 @@ public class WimsMod implements ModInitializer {
 
     private static float lastHealth = -1f;
     private static int damageCooldown = 0;
-    private static int prevCooldown = -1;
 
     public static void log(String message) {
         LOGGER.info("[WIMS-Debug] {}", message);
@@ -70,10 +71,7 @@ public class WimsMod implements ModInitializer {
                 damageCooldown--;
             }
 
-            if (damageCooldown != prevCooldown) {
-                log("damageCooldown = " + damageCooldown + ", health = " + currentHealth + ", hurtTime = " + client.player.hurtTime + ", isAlive = " + client.player.isAlive());
-                prevCooldown = damageCooldown;
-            }
+
 
             // Save inventory snapshot every tick while the player is alive and hasn't taken damage recently.
             if (client.player.isAlive() && client.player.getHealth() > 0f) {
@@ -126,6 +124,29 @@ public class WimsMod implements ModInitializer {
                     && client.player.currentScreenHandler.getCursorStack().isEmpty()
                     && client.interactionManager != null) {
 
+                // Pre-index valid source slots to optimize search from O(n^2) to O(n)
+                Map<net.minecraft.item.Item, Integer> itemToSourceSlot = new HashMap<>();
+                for (int slotId = 0; slotId <= 40; slotId++) {
+                    ItemStack stack = inventory.getStack(slotId);
+                    if (stack == null || stack.isEmpty()) {
+                        continue;
+                    }
+
+                    boolean isValidSource = false;
+                    if (!DeathInventoryCache.has(slotId)) {
+                        isValidSource = true;
+                    } else {
+                        ItemStack cached = DeathInventoryCache.get(slotId);
+                        if (stack.getItem() != cached.getItem()) {
+                            isValidSource = true;
+                        }
+                    }
+
+                    if (isValidSource) {
+                        itemToSourceSlot.putIfAbsent(stack.getItem(), slotId);
+                    }
+                }
+
                 boolean actionTaken = false;
                 for (int targetSlotId = 0; targetSlotId <= 40; targetSlotId++) {
                     if (DeathInventoryCache.has(targetSlotId)) {
@@ -136,94 +157,53 @@ public class WimsMod implements ModInitializer {
                         if (currentTarget == null || currentTarget.isEmpty() 
                                 || (currentTarget.getItem() == cached.getItem() && currentTarget.getCount() < cached.getCount())) {
 
-                            // Look for a source slot containing the same item
-                            for (int sourceSlotId = 0; sourceSlotId <= 40; sourceSlotId++) {
-                                if (sourceSlotId == targetSlotId) {
-                                    continue;
-                                }
+                            Integer sourceSlotId = itemToSourceSlot.get(cached.getItem());
+                            if (sourceSlotId != null) {
+                                int sourceHandlerId = getPlayerScreenHandlerSlotId(sourceSlotId);
+                                int targetHandlerId = getPlayerScreenHandlerSlotId(targetSlotId);
 
-                                ItemStack sourceStack = inventory.getStack(sourceSlotId);
-                                if (sourceStack != null && !sourceStack.isEmpty() && sourceStack.getItem() == cached.getItem()) {
-                                    
-                                    // Make sure we don't steal from a ghost slot that has already been correctly restored
-                                    boolean isValidSource = false;
-                                    if (!DeathInventoryCache.has(sourceSlotId)) {
-                                        isValidSource = true;
-                                    } else {
-                                        ItemStack sourceCached = DeathInventoryCache.get(sourceSlotId);
-                                        if (sourceStack.getItem() != sourceCached.getItem()) {
-                                            isValidSource = true;
-                                        }
+                                if (sourceHandlerId != -1 && targetHandlerId != -1) {
+                                    int syncId = client.player.currentScreenHandler.syncId;
+
+                                    // 1. Pick up from source
+                                    client.interactionManager.clickSlot(syncId, sourceHandlerId, 0, SlotActionType.PICKUP, client.player);
+
+                                    // 2. Put into target
+                                    client.interactionManager.clickSlot(syncId, targetHandlerId, 0, SlotActionType.PICKUP, client.player);
+
+                                    // 3. Put remaining back in source if needed
+                                    if (!client.player.currentScreenHandler.getCursorStack().isEmpty()) {
+                                        client.interactionManager.clickSlot(syncId, sourceHandlerId, 0, SlotActionType.PICKUP, client.player);
                                     }
 
-                                    if (isValidSource) {
-                                        int sourceHandlerId = getPlayerScreenHandlerSlotId(sourceSlotId);
-                                        int targetHandlerId = getPlayerScreenHandlerSlotId(targetSlotId);
-
-                                        if (sourceHandlerId != -1 && targetHandlerId != -1) {
-                                            int syncId = client.player.currentScreenHandler.syncId;
-
-                                            // 1. Pick up from source
-                                            client.interactionManager.clickSlot(syncId, sourceHandlerId, 0, SlotActionType.PICKUP, client.player);
-
-                                            // 2. Put into target
-                                            client.interactionManager.clickSlot(syncId, targetHandlerId, 0, SlotActionType.PICKUP, client.player);
-
-                                            // 3. Put remaining back in source if needed
-                                            if (!client.player.currentScreenHandler.getCursorStack().isEmpty()) {
-                                                client.interactionManager.clickSlot(syncId, sourceHandlerId, 0, SlotActionType.PICKUP, client.player);
-                                            }
-
-                                            actionTaken = true;
-                                            break;
-                                        }
-                                    }
+                                    actionTaken = true;
+                                    break;
                                 }
                             }
                         } else if (currentTarget != null && !currentTarget.isEmpty() && currentTarget.getItem() != cached.getItem()) {
                             // Target slot is blocked by a different item. Look for a source slot containing the correct (cached) item
-                            for (int sourceSlotId = 0; sourceSlotId <= 40; sourceSlotId++) {
-                                if (sourceSlotId == targetSlotId) {
-                                    continue;
-                                }
+                            Integer sourceSlotId = itemToSourceSlot.get(cached.getItem());
+                            if (sourceSlotId != null) {
+                                int sourceHandlerId = getPlayerScreenHandlerSlotId(sourceSlotId);
+                                int targetHandlerId = getPlayerScreenHandlerSlotId(targetSlotId);
 
-                                ItemStack sourceStack = inventory.getStack(sourceSlotId);
-                                if (sourceStack != null && !sourceStack.isEmpty() && sourceStack.getItem() == cached.getItem()) {
-                                    
-                                    // Make sure we don't steal from a ghost slot that has already been correctly restored
-                                    boolean isValidSource = false;
-                                    if (!DeathInventoryCache.has(sourceSlotId)) {
-                                        isValidSource = true;
-                                    } else {
-                                        ItemStack sourceCached = DeathInventoryCache.get(sourceSlotId);
-                                        if (sourceStack.getItem() != sourceCached.getItem()) {
-                                            isValidSource = true;
-                                        }
-                                    }
+                                if (sourceHandlerId != -1 && targetHandlerId != -1) {
+                                    int syncId = client.player.currentScreenHandler.syncId;
 
-                                    if (isValidSource) {
-                                        int sourceHandlerId = getPlayerScreenHandlerSlotId(sourceSlotId);
-                                        int targetHandlerId = getPlayerScreenHandlerSlotId(targetSlotId);
+                                    log("Swapping occupying item " + currentTarget.getItem() + " in slot " + targetSlotId 
+                                            + " with correct item " + cached.getItem() + " from slot " + sourceSlotId);
 
-                                        if (sourceHandlerId != -1 && targetHandlerId != -1) {
-                                            int syncId = client.player.currentScreenHandler.syncId;
+                                    // 1. Pick up correct item from source
+                                    client.interactionManager.clickSlot(syncId, sourceHandlerId, 0, SlotActionType.PICKUP, client.player);
 
-                                            log("Swapping occupying item " + currentTarget.getItem() + " in slot " + targetSlotId 
-                                                    + " with correct item " + sourceStack.getItem() + " from slot " + sourceSlotId);
+                                    // 2. Place correct item in target and pick up occupying item
+                                    client.interactionManager.clickSlot(syncId, targetHandlerId, 0, SlotActionType.PICKUP, client.player);
 
-                                            // 1. Pick up correct item from source
-                                            client.interactionManager.clickSlot(syncId, sourceHandlerId, 0, SlotActionType.PICKUP, client.player);
+                                    // 3. Place occupying item in source slot (which is now empty)
+                                    client.interactionManager.clickSlot(syncId, sourceHandlerId, 0, SlotActionType.PICKUP, client.player);
 
-                                            // 2. Place correct item in target and pick up occupying item
-                                            client.interactionManager.clickSlot(syncId, targetHandlerId, 0, SlotActionType.PICKUP, client.player);
-
-                                            // 3. Place occupying item in source slot (which is now empty)
-                                            client.interactionManager.clickSlot(syncId, sourceHandlerId, 0, SlotActionType.PICKUP, client.player);
-
-                                            actionTaken = true;
-                                            break;
-                                        }
-                                    }
+                                    actionTaken = true;
+                                    break;
                                 }
                             }
                         }

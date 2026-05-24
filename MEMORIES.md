@@ -64,9 +64,12 @@
 - **Yapıldı:** README.md'ye Modrinth şeffaflığı için desteklenen ve test edilen/doğrulanan sürümleri gösteren şık bir tablo eklendi. | **Etki:** README.md
 - **Yapıldı:** build.gradle içindeki yerel kullanıcı yolu, açık kaynak uyumluluğu için dinamik System.getProperty(user.home) ile değiştirildi. | **Etki:** build.gradle
 - **Yapıldı:** README.md içerisindeki yerel medya yolları Modrinth CDN bağlantılarıyla güncellendi. | **Etki:** README.md
-
-
-
-
-
+- **Yapıldı:** saveSnapshot() metodundaki çift döngü tek döngüye indirilerek optimize edildi. | **Etki:** src/main/java/dev/wims/cache/DeathInventoryCache.java
+- **Yapıldı:** CACHE ve SNAPSHOT için ConcurrentHashMap yerine normal HashMap kullanılarak optimize edildi. | **Etki:** src/main/java/dev/wims/cache/DeathInventoryCache.java
+- **Yapıldı:** Auto-restore mekanizmasındaki O(n^2) arama, geçerli slotların önceden indekslendiği O(n) HashMap aramasıyla optimize edildi. | **Etki:** src/main/java/dev/wims/WimsMod.java
+- **Yapıldı:** ItemRendererMixin'deki render katmanı arama maliyetini düşürmek için WeakHashMap tabanlı önbellek (cache) eklendi. | **Etki:** src/main/java/dev/wims/mixin/ItemRendererMixin.java
+- **Yapıldı:** HandledScreenMixin'de MinecraftClient.getInstance() çağrıları yerine client alanı shadow edilerek optimize edildi. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
+- **Yapıldı:** WimsMod'daki damageCooldown değişimi takibi logları ve kullanılmayan prevCooldown alanı silindi. | **Etki:** src/main/java/dev/wims/WimsMod.java
+- **Yapıldı:** Sürüm 0.1.1'e yükseltildi, CHANGELOG.md dosyası güncellendi. | **Etki:** gradle.properties, CHANGELOG.md
+- **Yapıldı:** Shadow client alanı refMap/Shadow uyuşmazlığı çökmesini çözmek için kaldırılıp yerine tekrar MinecraftClient.getInstance() yazıldı. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
 

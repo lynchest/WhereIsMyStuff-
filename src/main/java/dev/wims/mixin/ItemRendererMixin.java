@@ -10,6 +10,8 @@ import net.minecraft.client.render.item.ItemRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * Mixin to intercept ItemRenderer item rendering and apply 35% alpha opacity for ghost items.
@@ -20,6 +22,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Environment(EnvType.CLIENT)
 @Mixin(ItemRenderer.class)
 public class ItemRendererMixin {
+
+    private static final Map<RenderLayer, Boolean> PROMOTION_CACHE = new WeakHashMap<>();
 
     /**
      * Redirects getBuffer for both development (Yarn) and production (Intermediary) environments.
@@ -36,8 +40,13 @@ public class ItemRendererMixin {
     private VertexConsumer redirectGetBuffer(VertexConsumerProvider provider, RenderLayer layer) {
         if (WimsMod.renderingGhostItem) {
             RenderLayer targetLayer = layer;
-            String layerName = layer.toString().toLowerCase();
-            if (layerName.contains("solid") || layerName.contains("cutout")) {
+            Boolean shouldPromote = PROMOTION_CACHE.get(layer);
+            if (shouldPromote == null) {
+                String layerName = layer.toString().toLowerCase();
+                shouldPromote = layerName.contains("solid") || layerName.contains("cutout");
+                PROMOTION_CACHE.put(layer, shouldPromote);
+            }
+            if (shouldPromote) {
                 targetLayer = RenderLayer.getTranslucent();
             }
             return new GhostVertexConsumer(provider.getBuffer(targetLayer));

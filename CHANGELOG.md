@@ -5,6 +5,18 @@ All notable changes to the WhereIsMyStuff? (WIMS) mod will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-05-25
+
+### Optimized
+- **Auto-Restore Complexity:** Optimized the auto-restore item relocation lookup from $O(n^2)$ down to $O(n)$ by pre-indexing valid source slots in a local map.
+- **HashMap Promotion:** Replaced `ConcurrentHashMap` with standard non-synchronized `HashMap` in `DeathInventoryCache` since all caching and rendering runs entirely on Minecraft's main client thread.
+- **Single-Pass Inventory Snapshots:** Combined item-existence check and deep copy iteration in `saveSnapshot` into a single loop pass to reduce per-tick lookup cost.
+- **Render Layer Caching:** Added a `WeakHashMap` cache for the `ItemRendererMixin` getBuffer redirection to avoid costly string creation (`toString().toLowerCase()`) and character searching during the hot rendering path.
+- **Shadowed client field:** Shared the existing `client` field from `Screen` class in `HandledScreenMixin` to avoid redundant static calls to `MinecraftClient.getInstance()` during slot drawing.
+
+### Removed
+- **Cooldown Log Spam:** Disabled the tick-based console/disk log outputs that printed on every tick during the damage/death protection cooldown.
+
 ## [0.1.0] - 2026-05-24
 
 ### Added

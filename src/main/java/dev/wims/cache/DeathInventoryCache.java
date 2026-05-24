@@ -3,8 +3,8 @@ package dev.wims.cache;
 import dev.wims.WimsMod;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Static client-side cache storing the player's inventory snapshot upon death.
@@ -18,10 +18,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class DeathInventoryCache {
     /** The active ghost-item cache rendered on-screen. */
-    private static final Map<Integer, ItemStack> CACHE = new ConcurrentHashMap<>();
+    private static final Map<Integer, ItemStack> CACHE = new HashMap<>();
 
     /** Rolling snapshot of the player's inventory, updated every tick while alive. */
-    private static final Map<Integer, ItemStack> SNAPSHOT = new ConcurrentHashMap<>();
+    private static final Map<Integer, ItemStack> SNAPSHOT = new HashMap<>();
 
     /** True if the SNAPSHOT has at least one item. */
     private static boolean snapshotActive = false;
@@ -43,31 +43,25 @@ public final class DeathInventoryCache {
     public static void saveSnapshot(PlayerInventory inventory) {
         if (inventory == null) return;
 
-        // Count items FIRST — if empty, don't touch the snapshot.
-        // This prevents the race condition where slot-clear packets arrive
-        // before the health-update packet in a different network batch.
-        boolean hasItems = false;
+        // Copy items into a temporary map in a single pass.
+        // If empty, don't touch the snapshot. This prevents the race condition where slot-clear
+        // packets arrive before the health-update packet in a different network batch.
+        Map<Integer, ItemStack> temp = new HashMap<>();
         for (int slotId = 0; slotId <= 40; slotId++) {
             ItemStack stack = inventory.getStack(slotId);
             if (stack != null && !stack.isEmpty()) {
-                hasItems = true;
-                break;
+                temp.put(slotId, stack.copy());
             }
         }
 
-        if (!hasItems) {
+        if (temp.isEmpty()) {
             // Inventory is empty but player appears alive — don't overwrite.
             // The snapshot from the last tick with items is still valid.
             return;
         }
 
         SNAPSHOT.clear();
-        for (int slotId = 0; slotId <= 40; slotId++) {
-            ItemStack stack = inventory.getStack(slotId);
-            if (stack != null && !stack.isEmpty()) {
-                SNAPSHOT.put(slotId, stack.copy());
-            }
-        }
+        SNAPSHOT.putAll(temp);
         snapshotActive = true;
     }
 
