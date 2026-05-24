@@ -16,31 +16,89 @@ public class WimsMod implements ModInitializer {
     public static final String MOD_ID = "whereismystuff";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
+    private static float lastHealth = -1f;
+    private static int damageCooldown = 0;
+    private static int prevCooldown = -1;
+
+    public static void log(String message) {
+        try {
+            java.nio.file.Files.write(
+                java.nio.file.Paths.get("/Users/lynchest/Desktop/WhereIsMyStuff?/wims_debug.log"),
+                ("[" + java.time.LocalTime.now() + "] " + message + "\n").getBytes(),
+                java.nio.file.StandardOpenOption.CREATE,
+                java.nio.file.StandardOpenOption.APPEND
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onInitialize() {
-        LOGGER.info("WIMS (WhereIsMyStuff?) Mod Initialized!");
+        try {
+            java.nio.file.Files.deleteIfExists(java.nio.file.Paths.get("/Users/lynchest/Desktop/WhereIsMyStuff?/wims_debug.log"));
+        } catch (Exception e) {}
+        log("WIMS Mod Initialized!");
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client.player == null) {
+                if (lastHealth != -1f) {
+                    log("Player is null. Resetting tracking.");
+                }
+                lastHealth = -1f;
+                damageCooldown = 0;
                 return;
             }
 
-            // Rolling backup of inventory while player is alive
-            if (client.player.isAlive()) {
-                DeathInventoryCache.updatePreDeath(client.player.getInventory(), client.player.hurtTime > 0);
-            } else {
-                // Fallback capture when player is dead if handleStatus didn't catch it yet
-                if (DeathInventoryCache.isEmpty() && DeathInventoryCache.hasPreDeath()) {
-                    System.out.println("[WIMS DEBUG] Player is dead in tick. Triggering fallback pre-death capture.");
-                    DeathInventoryCache.captureFromPreDeath();
+            // Health and damage tracking to prevent snapshot corruption during death sequence
+            float currentHealth = client.player.getHealth();
+            if (lastHealth == -1f) {
+                lastHealth = currentHealth;
+                log("Initial health set to " + lastHealth);
+            }
+
+            boolean tookDamage = currentHealth < lastHealth || client.player.hurtTime > 0;
+            if (currentHealth < lastHealth) {
+                log("Health decreased! " + lastHealth + " -> " + currentHealth);
+            }
+            if (client.player.hurtTime > 0 && damageCooldown == 0) {
+                log("hurtTime > 0 detected! hurtTime = " + client.player.hurtTime);
+            }
+            lastHealth = currentHealth;
+
+            if (tookDamage) {
+                damageCooldown = 20; // Pause snapshot updates for 20 ticks (1 second) after taking damage
+            } else if (damageCooldown > 0) {
+                damageCooldown--;
+            }
+
+            if (damageCooldown != prevCooldown) {
+                log("damageCooldown = " + damageCooldown + ", health = " + currentHealth + ", hurtTime = " + client.player.hurtTime + ", isAlive = " + client.player.isAlive());
+                prevCooldown = damageCooldown;
+            }
+
+            // Save inventory snapshot every tick while the player is alive and hasn't taken damage recently.
+            if (client.player.isAlive() && client.player.getHealth() > 0f) {
+                if (damageCooldown == 0) {
+                    DeathInventoryCache.saveSnapshot(client.player.getInventory());
                 }
             }
 
+            // Nothing to do if no ghost items are cached
             if (DeathInventoryCache.isEmpty()) {
                 return;
             }
 
-            // Sync cache with current inventory first (if item already matches and count is sufficient)
+            // Skip syncing while the player is dead or on the death screen.
+            // This prevents a race condition where the death screen opens, and in the very same tick,
+            // the client-side tick listener sees the player is still alive with their original inventory,
+            // matches them, and immediately clears the newly frozen cache slots.
+            if (!client.player.isAlive() || client.player.getHealth() <= 0f 
+                    || client.currentScreen instanceof net.minecraft.client.gui.screen.DeathScreen) {
+                return;
+            }
+
+            // Sync cache with current inventory (if item already matches and count is sufficient)
             PlayerInventory inventory = client.player.getInventory();
             for (int slotId = 0; slotId <= 40; slotId++) {
                 if (DeathInventoryCache.has(slotId)) {
@@ -63,7 +121,7 @@ public class WimsMod implements ModInitializer {
             // Auto-restore items from other slots into their ghost slots
             // Ensure:
             // 1. Player is alive
-            // 2. No other screens (chest, anvil, etc.) are open (currentScreenHandler is playerScreenHandler)
+            // 2. No other screens (chest, anvil, etc.) are open
             // 3. Cursor stack is empty (not holding anything with mouse)
             if (client.player.isAlive() 
                     && client.player.currentScreenHandler == client.player.playerScreenHandler
@@ -106,9 +164,6 @@ public class WimsMod implements ModInitializer {
 
                                         if (sourceHandlerId != -1 && targetHandlerId != -1) {
                                             int syncId = client.player.currentScreenHandler.syncId;
-
-                                            System.out.println("[WIMS DEBUG] Auto-restoring item " + sourceStack.getItem().toString() 
-                                                    + " from slot " + sourceSlotId + " to slot " + targetSlotId);
 
                                             // 1. Pick up from source
                                             client.interactionManager.clickSlot(syncId, sourceHandlerId, 0, SlotActionType.PICKUP, client.player);

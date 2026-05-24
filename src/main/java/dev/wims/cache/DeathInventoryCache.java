@@ -1,5 +1,6 @@
 package dev.wims.cache;
 
+import dev.wims.WimsMod;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import java.util.Map;
@@ -7,54 +8,99 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Static client-side cache storing the player's inventory snapshot upon death.
+ *
+ * <p>The design is intentionally simple:
+ * <ul>
+ *   <li>{@code SNAPSHOT} — Updated every tick while the player is alive. A rolling backup.</li>
+ *   <li>{@code CACHE} — Frozen copy of SNAPSHOT, set when death is detected (DeathScreen opens).
+ *       This is what ghost items are rendered from.</li>
+ * </ul>
  */
 public final class DeathInventoryCache {
+    /** The active ghost-item cache rendered on-screen. */
     private static final Map<Integer, ItemStack> CACHE = new ConcurrentHashMap<>();
-    private static final Map<Integer, ItemStack> PRE_DEATH_CACHE = new ConcurrentHashMap<>();
-    private static boolean preDeathActive = false;
-    private static boolean capturedThisDeath = false;
+
+    /** Rolling snapshot of the player's inventory, updated every tick while alive. */
+    private static final Map<Integer, ItemStack> SNAPSHOT = new ConcurrentHashMap<>();
+
+    /** True if the SNAPSHOT has at least one item. */
+    private static boolean snapshotActive = false;
 
     private DeathInventoryCache() {
         // Prevent instantiation
     }
 
-    /**
-     * Checks if a capture has already been successfully stored for the current death.
-     *
-     * @return true if already captured, false otherwise
-     */
-    public static boolean isCapturedThisDeath() {
-        return capturedThisDeath;
-    }
+    // ──────────────────────────────────────────────────────────
+    //  Snapshot — rolling backup (updated every alive tick)
+    // ──────────────────────────────────────────────────────────
 
     /**
-     * Captures and copies non-empty item stacks from the player's inventory (slots 0-40).
+     * Takes a deep-copy snapshot of the player's current inventory.
+     * Called every tick while the player is alive and hasn't taken damage recently.
      *
-     * @param inventory the player's inventory to capture
+     * @param inventory the player's inventory
      */
-    public static void capture(PlayerInventory inventory) {
-        if (capturedThisDeath) {
-            System.out.println("[WIMS DEBUG] capture: Already captured this death. Skipping.");
-            return;
-        }
-        clearAll();
-        if (inventory == null) {
-            System.out.println("[WIMS DEBUG] capture called with null inventory!");
-            return;
-        }
-        System.out.println("[WIMS DEBUG] capture started.");
-        int capturedCount = 0;
+    public static void saveSnapshot(PlayerInventory inventory) {
+        if (inventory == null) return;
+
+        // Count items FIRST — if empty, don't touch the snapshot.
+        // This prevents the race condition where slot-clear packets arrive
+        // before the health-update packet in a different network batch.
+        boolean hasItems = false;
         for (int slotId = 0; slotId <= 40; slotId++) {
             ItemStack stack = inventory.getStack(slotId);
             if (stack != null && !stack.isEmpty()) {
-                CACHE.put(slotId, stack.copy());
-                System.out.println("[WIMS DEBUG] CACHED Slot " + slotId + ": " + stack);
-                capturedCount++;
+                hasItems = true;
+                break;
             }
         }
-        capturedThisDeath = true;
-        System.out.println("[WIMS DEBUG] capture finished. Total slots captured: " + capturedCount);
+
+        if (!hasItems) {
+            // Inventory is empty but player appears alive — don't overwrite.
+            // The snapshot from the last tick with items is still valid.
+            WimsMod.log("saveSnapshot: Inventory is empty, skipping snapshot update to protect previous.");
+            return;
+        }
+
+        SNAPSHOT.clear();
+        int count = 0;
+        for (int slotId = 0; slotId <= 40; slotId++) {
+            ItemStack stack = inventory.getStack(slotId);
+            if (stack != null && !stack.isEmpty()) {
+                SNAPSHOT.put(slotId, stack.copy());
+                count++;
+            }
+        }
+        snapshotActive = true;
+        WimsMod.log("saveSnapshot: Saved " + count + " slots. active = " + snapshotActive);
     }
+
+    // ──────────────────────────────────────────────────────────
+    //  Death trigger — freeze snapshot into active cache
+    // ──────────────────────────────────────────────────────────
+
+    /**
+     * Freezes the current snapshot into the display cache.
+     * Should be called exactly once when death is confirmed (e.g. DeathScreen opens).
+     */
+    public static void freezeSnapshot() {
+        WimsMod.log("freezeSnapshot called. snapshotActive = " + snapshotActive + ", snapshot size = " + SNAPSHOT.size());
+        if (!snapshotActive) {
+            WimsMod.log("freezeSnapshot: Snapshot is empty — nothing to freeze.");
+            return;
+        }
+        CACHE.clear();
+        int count = 0;
+        for (Map.Entry<Integer, ItemStack> entry : SNAPSHOT.entrySet()) {
+            CACHE.put(entry.getKey(), entry.getValue().copy());
+            count++;
+        }
+        WimsMod.log("freezeSnapshot: Frozen " + count + " slots into display cache.");
+    }
+
+    // ──────────────────────────────────────────────────────────
+    //  Cache accessors — used by rendering & recovery logic
+    // ──────────────────────────────────────────────────────────
 
     /**
      * Clears the cached item stack at the given slot ID.
@@ -62,6 +108,7 @@ public final class DeathInventoryCache {
      * @param slotId the inventory slot to clear
      */
     public static void clearSlot(int slotId) {
+        WimsMod.log("clearSlot: Cleared slot " + slotId);
         CACHE.remove(slotId);
     }
 
@@ -100,85 +147,5 @@ public final class DeathInventoryCache {
      */
     public static boolean isEmpty() {
         return CACHE.isEmpty();
-    }
-
-    /**
-     * Updates the pre-death cache with the player's current inventory if they are alive.
-     *
-     * @param inventory the player's inventory to backup
-     * @param isHurt true if the player took damage recently (hurtTime > 0)
-     */
-    public static void updatePreDeath(PlayerInventory inventory, boolean isHurt) {
-        if (inventory == null) return;
-
-        // Reset the capture flag since the player is alive and inventory backup is active
-        if (capturedThisDeath) {
-            System.out.println("[WIMS DEBUG] Player is alive and backing up inventory. Resetting capturedThisDeath.");
-            capturedThisDeath = false;
-        }
-
-        boolean hasItems = false;
-        for (int slotId = 0; slotId <= 40; slotId++) {
-            ItemStack stack = inventory.getStack(slotId);
-            if (stack != null && !stack.isEmpty()) {
-                hasItems = true;
-                break;
-            }
-        }
-
-        // If the current inventory is completely empty, but we previously had items:
-        // ONLY protect it if the player was hurt/damaged recently or is dead/dying.
-        // This avoids the edge case where a player legitimately empties their inventory in safety.
-        if (!hasItems && preDeathActive && !PRE_DEATH_CACHE.isEmpty()) {
-            if (isHurt) {
-                System.out.println("[WIMS DEBUG] updatePreDeath: Current inventory is empty and player is hurt. Protecting pre-death cache.");
-                return;
-            }
-        }
-
-        for (int slotId = 0; slotId <= 40; slotId++) {
-            ItemStack stack = inventory.getStack(slotId);
-            if (stack != null && !stack.isEmpty()) {
-                PRE_DEATH_CACHE.put(slotId, stack.copy());
-            } else {
-                PRE_DEATH_CACHE.remove(slotId);
-            }
-        }
-        preDeathActive = hasItems;
-    }
-
-    /**
-     * Captures items from the pre-death cache into the active death cache.
-     */
-    public static void captureFromPreDeath() {
-        if (capturedThisDeath) {
-            System.out.println("[WIMS DEBUG] captureFromPreDeath: Already captured this death. Skipping.");
-            return;
-        }
-        if (!preDeathActive) {
-            System.out.println("[WIMS DEBUG] captureFromPreDeath called but pre-death cache is not active!");
-            return;
-        }
-        clearAll();
-        System.out.println("[WIMS DEBUG] captureFromPreDeath started.");
-        int capturedCount = 0;
-        for (Map.Entry<Integer, ItemStack> entry : PRE_DEATH_CACHE.entrySet()) {
-            CACHE.put(entry.getKey(), entry.getValue().copy());
-            System.out.println("[WIMS DEBUG] CACHED (Pre-Death) Slot " + entry.getKey() + ": " + entry.getValue());
-            capturedCount++;
-        }
-        preDeathActive = false;
-        PRE_DEATH_CACHE.clear();
-        capturedThisDeath = true;
-        System.out.println("[WIMS DEBUG] captureFromPreDeath finished. Total slots captured: " + capturedCount);
-    }
-
-    /**
-     * Checks if the pre-death cache has active items available to capture.
-     *
-     * @return true if pre-death cache is active, false otherwise
-     */
-    public static boolean hasPreDeath() {
-        return preDeathActive;
     }
 }
