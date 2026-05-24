@@ -1,6 +1,6 @@
 # WIMS — Progress Tracker
 
-## Status: 🟡 Phase 2 Completed
+## Status: 🟡 Phase 3 Completed
 
 **Target:** Minecraft 1.21.4 · Fabric · Java 21  
 **Goal:** Çalışan bir mod yap, Modrinth'e yükle. Sürüm desteği sonra.
@@ -37,12 +37,12 @@
 ---
 
 ## Phase 3 — Mixins
-- [ ] `PlayerDeathMixin` → `/kill` ile ölünce cache doluyor (log ile doğrula)
-- [ ] `PlayerDeathMixin` → düşerek ölünce de cache doluyor
-- [ ] `HandledScreenMixin` → ghost ikonlar doğru slotta görünüyor
-- [ ] `HandledScreenMixin` → alpha 0.35, renk reset doğru çalışıyor
-- [ ] `InventorySyncMixin` → eşya alınınca slot temizleniyor
-- [ ] `InventorySyncMixin` → kısmi recovery'de ghost kalıyor
+- [x] `PlayerDeathMixin` → `/kill` ile ölünce cache doluyor (log ile doğrula)
+- [x] `PlayerDeathMixin` → düşerek ölünce de cache doluyor
+- [x] `HandledScreenMixin` → ghost ikonlar doğru slotta görünüyor
+- [x] `HandledScreenMixin` → alpha 0.35, renk reset doğru çalışıyor
+- [x] `InventorySyncMixin` → eşya alınınca slot temizleniyor
+- [x] `InventorySyncMixin` → kısmi recovery'de ghost kalıyor
 
 ---
 
