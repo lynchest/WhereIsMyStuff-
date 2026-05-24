@@ -1,6 +1,6 @@
 # WIMS — Progress Tracker
 
-## Status: 🟡 Phase 3 Completed
+## Status: 🟡 Phase 4 Completed
 
 **Target:** Minecraft 1.21.4 · Fabric · Java 21  
 **Goal:** Çalışan bir mod yap, Modrinth'e yükle. Sürüm desteği sonra.
@@ -47,11 +47,11 @@
 ---
 
 ## Phase 4 — Integration Testing
-- [ ] Senaryo 1: `/kill`, envanter aç → ghost'lar görünüyor
-- [ ] Senaryo 2: Kısmi item recovery → ghost kalıyor
-- [ ] Senaryo 3: Tam recovery → vanilla'ya dönüyor
-- [ ] Senaryo 4: İkinci ölüm → cache doğru şekilde üzerine yazıyor
-- [ ] Senaryo 5: Sandık/chest ekranı açılınca → ghost yok (sadece player inventory)
+- [x] Senaryo 1: `/kill`, envanter aç → ghost'lar görünüyor
+- [x] Senaryo 2: Kısmi item recovery → ghost kalıyor
+- [x] Senaryo 3: Tam recovery → vanilla'ya dönüyor
+- [x] Senaryo 4: İkinci ölüm → cache doğru şekilde üzerine yazıyor
+- [x] Senaryo 5: Sandık/chest ekranı açılınca → ghost yok (sadece player inventory)
 
 ---
 
