@@ -24,6 +24,10 @@ public abstract class PlayerDeathMixin {
         if (client.player == null || (Object) this != client.player) {
             return;
         }
+        if (DeathInventoryCache.isCapturedThisDeath()) {
+            System.out.println("[WIMS DEBUG] onDeath: Already captured this death. Skipping.");
+            return;
+        }
         System.out.println("[WIMS DEBUG] onDeath called on client player.");
         // Try standard capture first, fallback to pre-death if it's empty
         boolean hasItems = false;
@@ -34,8 +38,10 @@ public abstract class PlayerDeathMixin {
             }
         }
         if (hasItems) {
+            System.out.println("[WIMS DEBUG] onDeath - Current inventory has items. Capturing current.");
             DeathInventoryCache.capture(client.player.getInventory());
         } else {
+            System.out.println("[WIMS DEBUG] onDeath - Current inventory is empty. Capturing from pre-death.");
             DeathInventoryCache.captureFromPreDeath();
         }
     }
@@ -47,8 +53,26 @@ public abstract class PlayerDeathMixin {
             if (client.player == null || (Object) this != client.player) {
                 return;
             }
+            if (DeathInventoryCache.isCapturedThisDeath()) {
+                System.out.println("[WIMS DEBUG] handleStatus(3): Already captured this death. Skipping.");
+                return;
+            }
             System.out.println("[WIMS DEBUG] handleStatus(3) (DEATH) received for client player. Capturing inventory.");
-            DeathInventoryCache.captureFromPreDeath();
+            // Try standard capture first, fallback to pre-death if it's empty
+            boolean hasItems = false;
+            for (int i = 0; i <= 40; i++) {
+                if (!client.player.getInventory().getStack(i).isEmpty()) {
+                    hasItems = true;
+                    break;
+                }
+            }
+            if (hasItems) {
+                System.out.println("[WIMS DEBUG] handleStatus(3) - Current inventory has items. Capturing current.");
+                DeathInventoryCache.capture(client.player.getInventory());
+            } else {
+                System.out.println("[WIMS DEBUG] handleStatus(3) - Current inventory is empty. Capturing from pre-death.");
+                DeathInventoryCache.captureFromPreDeath();
+            }
         }
     }
 }

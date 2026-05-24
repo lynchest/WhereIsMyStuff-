@@ -59,8 +59,8 @@
 - [ ] `README.md` yazıldı (Modrinth description)
 - [ ] Mod ikonu eklendi (`icon.png`, 512×512)
 - [ ] `CHANGELOG.md` → v0.1.0 girişi
-- [ ] Build temiz: `./gradlew build` → `.jar` üretildi
-- [ ] Singleplayer'da test edildi
+- [x] Build temiz: `./gradlew build` → `.jar` üretildi
+- [x] Singleplayer'da test edildi
 - [ ] Vanilla local server'da test edildi
 - [ ] Modrinth proje sayfası oluşturuldu
 - [ ] v0.1.0 `.jar` Modrinth'e yüklendi

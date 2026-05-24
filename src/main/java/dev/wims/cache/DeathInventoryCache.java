@@ -12,9 +12,19 @@ public final class DeathInventoryCache {
     private static final Map<Integer, ItemStack> CACHE = new ConcurrentHashMap<>();
     private static final Map<Integer, ItemStack> PRE_DEATH_CACHE = new ConcurrentHashMap<>();
     private static boolean preDeathActive = false;
+    private static boolean capturedThisDeath = false;
 
     private DeathInventoryCache() {
         // Prevent instantiation
+    }
+
+    /**
+     * Checks if a capture has already been successfully stored for the current death.
+     *
+     * @return true if already captured, false otherwise
+     */
+    public static boolean isCapturedThisDeath() {
+        return capturedThisDeath;
     }
 
     /**
@@ -23,6 +33,10 @@ public final class DeathInventoryCache {
      * @param inventory the player's inventory to capture
      */
     public static void capture(PlayerInventory inventory) {
+        if (capturedThisDeath) {
+            System.out.println("[WIMS DEBUG] capture: Already captured this death. Skipping.");
+            return;
+        }
         clearAll();
         if (inventory == null) {
             System.out.println("[WIMS DEBUG] capture called with null inventory!");
@@ -38,6 +52,7 @@ public final class DeathInventoryCache {
                 capturedCount++;
             }
         }
+        capturedThisDeath = true;
         System.out.println("[WIMS DEBUG] capture finished. Total slots captured: " + capturedCount);
     }
 
@@ -91,28 +106,55 @@ public final class DeathInventoryCache {
      * Updates the pre-death cache with the player's current inventory if they are alive.
      *
      * @param inventory the player's inventory to backup
+     * @param isHurt true if the player took damage recently (hurtTime > 0)
      */
-    public static void updatePreDeath(PlayerInventory inventory) {
+    public static void updatePreDeath(PlayerInventory inventory, boolean isHurt) {
         if (inventory == null) return;
+
+        // Reset the capture flag since the player is alive and inventory backup is active
+        if (capturedThisDeath) {
+            System.out.println("[WIMS DEBUG] Player is alive and backing up inventory. Resetting capturedThisDeath.");
+            capturedThisDeath = false;
+        }
+
         boolean hasItems = false;
         for (int slotId = 0; slotId <= 40; slotId++) {
             ItemStack stack = inventory.getStack(slotId);
             if (stack != null && !stack.isEmpty()) {
-                PRE_DEATH_CACHE.put(slotId, stack.copy());
                 hasItems = true;
+                break;
+            }
+        }
+
+        // If the current inventory is completely empty, but we previously had items:
+        // ONLY protect it if the player was hurt/damaged recently or is dead/dying.
+        // This avoids the edge case where a player legitimately empties their inventory in safety.
+        if (!hasItems && preDeathActive && !PRE_DEATH_CACHE.isEmpty()) {
+            if (isHurt) {
+                System.out.println("[WIMS DEBUG] updatePreDeath: Current inventory is empty and player is hurt. Protecting pre-death cache.");
+                return;
+            }
+        }
+
+        for (int slotId = 0; slotId <= 40; slotId++) {
+            ItemStack stack = inventory.getStack(slotId);
+            if (stack != null && !stack.isEmpty()) {
+                PRE_DEATH_CACHE.put(slotId, stack.copy());
             } else {
                 PRE_DEATH_CACHE.remove(slotId);
             }
         }
-        if (hasItems) {
-            preDeathActive = true;
-        }
+        preDeathActive = hasItems;
     }
 
     /**
      * Captures items from the pre-death cache into the active death cache.
      */
     public static void captureFromPreDeath() {
+        if (capturedThisDeath) {
+            System.out.println("[WIMS DEBUG] captureFromPreDeath: Already captured this death. Skipping.");
+            return;
+        }
         if (!preDeathActive) {
             System.out.println("[WIMS DEBUG] captureFromPreDeath called but pre-death cache is not active!");
             return;
@@ -127,6 +169,7 @@ public final class DeathInventoryCache {
         }
         preDeathActive = false;
         PRE_DEATH_CACHE.clear();
+        capturedThisDeath = true;
         System.out.println("[WIMS DEBUG] captureFromPreDeath finished. Total slots captured: " + capturedCount);
     }
 

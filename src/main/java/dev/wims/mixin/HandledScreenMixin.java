@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(HandledScreen.class)
 public abstract class HandledScreenMixin {
 
-    @Inject(method = "drawSlot", at = @At("HEAD"))
+    @Inject(method = "drawSlot", at = @At("TAIL"))
     private void renderGhostItem(DrawContext context, Slot slot, CallbackInfo ci) {
         if (DeathInventoryCache.isEmpty()) {
             return;

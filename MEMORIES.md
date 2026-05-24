@@ -25,3 +25,9 @@
 - **Neresi etkilendi:** [settings.gradle](file:///Users/lynchest/Desktop/WhereIsMyStuff?/settings.gradle)
 - **Ne yapıldı:** Ölüm anında envanterin sunucu tarafından boşaltılmasından önce kopyalanabilmesi için pre-death rolling inventory cache mantığı eklendi, LivingEntity.handleStatus ve ClientTickEvents.END_CLIENT_TICK üzerinden tetiklenmesi sağlandı.
 - **Neresi etkilendi:** [DeathInventoryCache.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/cache/DeathInventoryCache.java), [PlayerDeathMixin.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/mixin/PlayerDeathMixin.java), [WimsMod.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/WimsMod.java)
+- **Ne yapıldı:** Ölümden sonra yerden alınan eşyaların otomatik olarak orijinal slotlarına dönmesi için `WimsMod.java` içerisine click-based slot yer değiştirme ve slot haritalama mantığı eklendi.
+- **Neresi etkilendi:** [WimsMod.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/WimsMod.java)
+- **Ne yapıldı:** Sol el (offhand) ghost eşyalarının şeffaf görünmeme/arkada kalma sorununu çözmek için HandledScreenMixin'deki slot çizim enjeksiyon noktası HEAD'den TAIL'e taşındı.
+- **Neresi etkilendi:** [HandledScreenMixin.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/mixin/HandledScreenMixin.java)
+- **Ne yapıldı:** Mob/mod ölümlerinde envanter boşaltma paketlerinin pre-death yedeğini silmesini önlemek için hasar durumlu koruma mantığı ve mükerrer kayıt önleyici flag entegre edildi.
+- **Neresi etkilendi:** [DeathInventoryCache.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/cache/DeathInventoryCache.java), [WimsMod.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/WimsMod.java), [PlayerDeathMixin.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/mixin/PlayerDeathMixin.java)
