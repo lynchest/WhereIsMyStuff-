@@ -1,0 +1,13 @@
+{
+	"required": true,
+	"package": "dev.wims.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"PlayerDeathMixin",
+		"HandledScreenMixin",
+		"InventorySyncMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

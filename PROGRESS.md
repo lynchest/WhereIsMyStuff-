@@ -1,6 +1,6 @@
 # WIMS — Progress Tracker
 
-## Status: 🟡 Not Started
+## Status: 🟡 Phase 1 Completed
 
 **Target:** Minecraft 1.21.4 · Fabric · Java 21  
 **Goal:** Çalışan bir mod yap, Modrinth'e yükle. Sürüm desteği sonra.
@@ -8,7 +8,6 @@
 ---
 
 ## Phase 0 — Dev Environment Setup
-> İlk kez MC modu yapıyorsan bu fazı atla, başlangıçta patlarsin.
 
 - [x] Java 21 JDK kurulu (`java -version` → `21.x.x`)
 - [x] VS Code veya IntelliJ IDEA kurulu
@@ -18,16 +17,16 @@
 - [x] `./gradlew genSources` çalıştı (Yarn mappings indiriliyor, ilk seferde 5-10 dk sürer)
 - [x] Seçtiğiniz IDE'de proje açıldı, Gradle sync/import tamamlandı
 - [x] `./gradlew build` hatasız geçti (template kodu derlendi)
-- [ ] Minecraft açıldı, mod yüklendi (Mods menüsünde görünüyor)
+- [x] Minecraft açıldı, mod yüklendi (Mods menüsünde görünüyor)
 
 ---
 
 ## Phase 1 — Scaffold
-- [ ] `gradle.properties` → exact 1.21.4 versions
-- [ ] `fabric.mod.json` → `"environment": "client"` declared
-- [ ] `wims.mixins.json` → 3 mixin registered
-- [ ] `WimsMod.java` → entrypoint compiles cleanly
-- [ ] Build passes: `./gradlew build`
+- [x] `gradle.properties` → exact 1.21.4 versions
+- [x] `fabric.mod.json` → `"environment": "client"` declared
+- [x] `wims.mixins.json` → 3 mixin registered
+- [x] `WimsMod.java` → entrypoint compiles cleanly
+- [x] Build passes: `./gradlew build`
 
 ---
 
