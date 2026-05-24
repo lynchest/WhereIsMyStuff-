@@ -111,4 +111,4 @@ Getting started is quick and easy:
 
 ## 📄 License
 
-This project is licensed under the **CC0 License** (Public Domain). Feel free to use it in any modpack, fork it, or reference it in your own mods!
+This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**. Feel free to use it in any modpack, fork it, or reference it in your own mods, as long as any modifications and derived works remain open-source under the same GPL-3.0 license!
