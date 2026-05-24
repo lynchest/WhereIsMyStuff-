@@ -1,0 +1,87 @@
+# WIMS — Progress Tracker
+
+## Status: 🟡 Not Started
+
+**Target:** Minecraft 1.21.4 · Fabric · Java 21  
+**Goal:** Çalışan bir mod yap, Modrinth'e yükle. Sürüm desteği sonra.
+
+---
+
+## Phase 0 — Dev Environment Setup
+> İlk kez MC modu yapıyorsan bu fazı atla, başlangıçta patlarsin.
+
+- [x] Java 21 JDK kurulu (`java -version` → `21.x.x`)
+- [x] VS Code veya IntelliJ IDEA kurulu
+- [x] Fabric example mod template indirildi:
+  `git clone https://github.com/FabricMC/fabric-example-mod`
+- [x] `gradle.properties` WIMS sürümleriyle güncellendi
+- [x] `./gradlew genSources` çalıştı (Yarn mappings indiriliyor, ilk seferde 5-10 dk sürer)
+- [x] Seçtiğiniz IDE'de proje açıldı, Gradle sync/import tamamlandı
+- [x] `./gradlew build` hatasız geçti (template kodu derlendi)
+- [ ] Minecraft açıldı, mod yüklendi (Mods menüsünde görünüyor)
+
+---
+
+## Phase 1 — Scaffold
+- [ ] `gradle.properties` → exact 1.21.4 versions
+- [ ] `fabric.mod.json` → `"environment": "client"` declared
+- [ ] `wims.mixins.json` → 3 mixin registered
+- [ ] `WimsMod.java` → entrypoint compiles cleanly
+- [ ] Build passes: `./gradlew build`
+
+---
+
+## Phase 2 — Core Logic
+- [ ] `DeathInventoryCache.java` → tüm metodlar implement edildi
+- [ ] Basit doğrulama: cache'e bir ItemStack yaz, oku, temizle — çalışıyor
+
+---
+
+## Phase 3 — Mixins
+- [ ] `PlayerDeathMixin` → `/kill` ile ölünce cache doluyor (log ile doğrula)
+- [ ] `PlayerDeathMixin` → düşerek ölünce de cache doluyor
+- [ ] `HandledScreenMixin` → ghost ikonlar doğru slotta görünüyor
+- [ ] `HandledScreenMixin` → alpha 0.35, renk reset doğru çalışıyor
+- [ ] `InventorySyncMixin` → eşya alınınca slot temizleniyor
+- [ ] `InventorySyncMixin` → kısmi recovery'de ghost kalıyor
+
+---
+
+## Phase 4 — Integration Testing
+- [ ] Senaryo 1: `/kill`, envanter aç → ghost'lar görünüyor
+- [ ] Senaryo 2: Kısmi item recovery → ghost kalıyor
+- [ ] Senaryo 3: Tam recovery → vanilla'ya dönüyor
+- [ ] Senaryo 4: İkinci ölüm → cache doğru şekilde üzerine yazıyor
+- [ ] Senaryo 5: Sandık/chest ekranı açılınca → ghost yok (sadece player inventory)
+
+---
+
+## Phase 5 — Release
+- [ ] `README.md` yazıldı (Modrinth description)
+- [ ] Mod ikonu eklendi (`icon.png`, 512×512)
+- [ ] `CHANGELOG.md` → v0.1.0 girişi
+- [ ] Build temiz: `./gradlew build` → `.jar` üretildi
+- [ ] Singleplayer'da test edildi
+- [ ] Vanilla local server'da test edildi
+- [ ] Modrinth proje sayfası oluşturuldu
+- [ ] v0.1.0 `.jar` Modrinth'e yüklendi
+
+---
+
+## Backlog (Phase 5 Sonrası)
+- [ ] 1.20 → 1.20.4 backport (branch: `backport/1.20`)
+- [ ] 1.21.1, 1.21.2, 1.21.3 uyumluluk testi
+
+---
+
+## Known Issues / Blockers
+
+_None yet._
+
+---
+
+## Session Log
+
+| Date | Work Done |
+|------|-----------|
+| —    | Project docs created, 1.21.4 versioned |

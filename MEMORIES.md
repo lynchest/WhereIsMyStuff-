@@ -1,0 +1,12 @@
+# WIMS — Memories
+
+> **KURAL:** Bu dosya bağlam (context) verimliliği için **maksimum kısalıkta** tutulmalıdır.
+> Sadece "Ne yapıldı?" ve "Neresi etkilendi?" bilgilerine odaklanın. Yorum ve uzun açıklama eklemeyin.
+
+- **Ne yapıldı:** `MEMORIES.md` dosyası oluşturuldu ve `AGENTS.md` dosyasına bellek kuralı eklendi.
+- **Neresi etkilendi:** `/` (proje kök dizini), [AGENTS.md](file:///Users/lynchest/Desktop/WhereIsMyStuff?/AGENTS.md)
+- **Ne yapıldı:** `PROGRESS.md` dosyasındaki IntelliJ IDEA gereksinimi kaldırıldı ve VS Code/genel IDE seçeneği eklendi.
+- **Neresi etkilendi:** [PROGRESS.md](file:///Users/lynchest/Desktop/WhereIsMyStuff?/PROGRESS.md)
+- **Ne yapıldı:** Phase 0 (Dev Environment Setup) tamamlandı; Java 21 kuruldu, Fabric şablonu yerleştirildi, Gradle yapılandırması 1.21.4'e göre güncellendi, genSources ve build başarıyla tamamlandı.
+- **Neresi etkilendi:** [gradle.properties](file:///Users/lynchest/Desktop/WhereIsMyStuff?/gradle.properties), [build.gradle](file:///Users/lynchest/Desktop/WhereIsMyStuff?/build.gradle), [ExampleClientMixin.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/client/java/com/example/client/mixin/ExampleClientMixin.java), [PROGRESS.md](file:///Users/lynchest/Desktop/WhereIsMyStuff?/PROGRESS.md)
+
