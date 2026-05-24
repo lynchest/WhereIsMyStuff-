@@ -10,6 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class DeathInventoryCache {
     private static final Map<Integer, ItemStack> CACHE = new ConcurrentHashMap<>();
+    private static final Map<Integer, ItemStack> PRE_DEATH_CACHE = new ConcurrentHashMap<>();
+    private static boolean preDeathActive = false;
 
     private DeathInventoryCache() {
         // Prevent instantiation
@@ -22,13 +24,21 @@ public final class DeathInventoryCache {
      */
     public static void capture(PlayerInventory inventory) {
         clearAll();
-        if (inventory == null) return;
+        if (inventory == null) {
+            System.out.println("[WIMS DEBUG] capture called with null inventory!");
+            return;
+        }
+        System.out.println("[WIMS DEBUG] capture started.");
+        int capturedCount = 0;
         for (int slotId = 0; slotId <= 40; slotId++) {
             ItemStack stack = inventory.getStack(slotId);
             if (stack != null && !stack.isEmpty()) {
                 CACHE.put(slotId, stack.copy());
+                System.out.println("[WIMS DEBUG] CACHED Slot " + slotId + ": " + stack);
+                capturedCount++;
             }
         }
+        System.out.println("[WIMS DEBUG] capture finished. Total slots captured: " + capturedCount);
     }
 
     /**
@@ -75,5 +85,57 @@ public final class DeathInventoryCache {
      */
     public static boolean isEmpty() {
         return CACHE.isEmpty();
+    }
+
+    /**
+     * Updates the pre-death cache with the player's current inventory if they are alive.
+     *
+     * @param inventory the player's inventory to backup
+     */
+    public static void updatePreDeath(PlayerInventory inventory) {
+        if (inventory == null) return;
+        boolean hasItems = false;
+        for (int slotId = 0; slotId <= 40; slotId++) {
+            ItemStack stack = inventory.getStack(slotId);
+            if (stack != null && !stack.isEmpty()) {
+                PRE_DEATH_CACHE.put(slotId, stack.copy());
+                hasItems = true;
+            } else {
+                PRE_DEATH_CACHE.remove(slotId);
+            }
+        }
+        if (hasItems) {
+            preDeathActive = true;
+        }
+    }
+
+    /**
+     * Captures items from the pre-death cache into the active death cache.
+     */
+    public static void captureFromPreDeath() {
+        if (!preDeathActive) {
+            System.out.println("[WIMS DEBUG] captureFromPreDeath called but pre-death cache is not active!");
+            return;
+        }
+        clearAll();
+        System.out.println("[WIMS DEBUG] captureFromPreDeath started.");
+        int capturedCount = 0;
+        for (Map.Entry<Integer, ItemStack> entry : PRE_DEATH_CACHE.entrySet()) {
+            CACHE.put(entry.getKey(), entry.getValue().copy());
+            System.out.println("[WIMS DEBUG] CACHED (Pre-Death) Slot " + entry.getKey() + ": " + entry.getValue());
+            capturedCount++;
+        }
+        preDeathActive = false;
+        PRE_DEATH_CACHE.clear();
+        System.out.println("[WIMS DEBUG] captureFromPreDeath finished. Total slots captured: " + capturedCount);
+    }
+
+    /**
+     * Checks if the pre-death cache has active items available to capture.
+     *
+     * @return true if pre-death cache is active, false otherwise
+     */
+    public static boolean hasPreDeath() {
+        return preDeathActive;
     }
 }

@@ -22,6 +22,18 @@ public class WimsMod implements ModInitializer {
             if (client.player == null) {
                 return;
             }
+
+            // Rolling backup of inventory while player is alive
+            if (client.player.isAlive()) {
+                DeathInventoryCache.updatePreDeath(client.player.getInventory());
+            } else {
+                // Fallback capture when player is dead if handleStatus didn't catch it yet
+                if (DeathInventoryCache.isEmpty() && DeathInventoryCache.hasPreDeath()) {
+                    System.out.println("[WIMS DEBUG] Player is dead in tick. Triggering fallback pre-death capture.");
+                    DeathInventoryCache.captureFromPreDeath();
+                }
+            }
+
             if (DeathInventoryCache.isEmpty()) {
                 return;
             }

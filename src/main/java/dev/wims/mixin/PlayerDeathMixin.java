@@ -24,6 +24,31 @@ public abstract class PlayerDeathMixin {
         if (client.player == null || (Object) this != client.player) {
             return;
         }
-        DeathInventoryCache.capture(client.player.getInventory());
+        System.out.println("[WIMS DEBUG] onDeath called on client player.");
+        // Try standard capture first, fallback to pre-death if it's empty
+        boolean hasItems = false;
+        for (int i = 0; i <= 40; i++) {
+            if (!client.player.getInventory().getStack(i).isEmpty()) {
+                hasItems = true;
+                break;
+            }
+        }
+        if (hasItems) {
+            DeathInventoryCache.capture(client.player.getInventory());
+        } else {
+            DeathInventoryCache.captureFromPreDeath();
+        }
+    }
+
+    @Inject(method = "handleStatus", at = @At("HEAD"))
+    private void onHandleStatus(byte status, CallbackInfo ci) {
+        if (status == 3) { // EntityStatuses.DEATH
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (client.player == null || (Object) this != client.player) {
+                return;
+            }
+            System.out.println("[WIMS DEBUG] handleStatus(3) (DEATH) received for client player. Capturing inventory.");
+            DeathInventoryCache.captureFromPreDeath();
+        }
     }
 }

@@ -23,5 +23,5 @@
 - **Neresi etkilendi:** [gradle.properties](file:///Users/lynchest/Desktop/WhereIsMyStuff?/gradle.properties)
 - **Ne yapıldı:** Mod jar adının `whereismystuff` olması için `settings.gradle` dosyasındaki `rootProject.name` güncellendi ve yeniden derlendi.
 - **Neresi etkilendi:** [settings.gradle](file:///Users/lynchest/Desktop/WhereIsMyStuff?/settings.gradle)
-
-
+- **Ne yapıldı:** Ölüm anında envanterin sunucu tarafından boşaltılmasından önce kopyalanabilmesi için pre-death rolling inventory cache mantığı eklendi, LivingEntity.handleStatus ve ClientTickEvents.END_CLIENT_TICK üzerinden tetiklenmesi sağlandı.
+- **Neresi etkilendi:** [DeathInventoryCache.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/cache/DeathInventoryCache.java), [PlayerDeathMixin.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/mixin/PlayerDeathMixin.java), [WimsMod.java](file:///Users/lynchest/Desktop/WhereIsMyStuff?/src/main/java/dev/wims/WimsMod.java)
