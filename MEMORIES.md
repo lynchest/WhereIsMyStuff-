@@ -37,5 +37,23 @@
 - **Yapıldı:** Oyuncu sunucudan veya dünyadan ayrıldığında hayalet envanteri temizleyen DISCONNECT dinleyicisi eklendi. | **Etki:** WimsMod.java, DeathInventoryCache.java
 - **Yapıldı:** Pixel art ikon, en yakın komşu (Nearest Neighbor) ile 256x256 piksele küçültüldü; .jar boyutu %95 küçülerek 57 KB oldu. | **Etki:** icon.png, src/main/resources/assets/whereismystuff/icon.png
 - **Yapıldı:** README.md ve CHANGELOG.md dosyalarına modun yüksek performans ve 57 KB tüy sıklet boyutu eklendi. | **Etki:** README.md, CHANGELOG.md
+- **Yapıldı:** 1.21.4 - 1.21.11 arası tüm sürümler için resmi destek ve bağımlılık aralığı entegre edildi. | **Etki:** src/main/resources/fabric.mod.json, SUPPORTED-VERSİONS.md, README.md, PROGRESS.md
+- **Yapıldı:** 1.21.11 ve 1.21.4 sürümündeki drawSlot imza uyuşmazlığı çökmesi, require = 0 ve remap = false içeren ikili Intermediary dual-injection mimarisiyle tamamen çözüldü. | **Etki:** HandledScreenMixin.java
+- **Yapıldı:** 1.21.11 envanter açma çökmesi, gereksiz RenderSystem.enableBlend() ve defaultBlendFunc() çağrıları kaldırılarak çözüldü. | **Etki:** HandledScreenMixin.java
+- **Yapıldı:** RenderSystem.setShaderColor 1.21.11 uyumluluğu için kaldırıldı; şeffaflık ItemRendererMixin içindeki GhostVertexConsumer ile çözüldü. | **Etki:** HandledScreenMixin.java, ItemRendererMixin.java
+- **Yapıldı:** ItemRendererMixin instance metot yapıldı, debug logu eklendi ve layer swap kaldırılarak basitleştirildi. | **Etki:** ItemRendererMixin.java
+- **Yapıldı:** HandledScreenMixin içindeki geçici context.fill overlay hack'i kaldırıldı. | **Etki:** HandledScreenMixin.java
+- **Yapıldı:** 1.21'in yeni render motoru için ItemRendererMixin silindi, doğrudan ItemRenderState.render'ı hedefleyen ItemRenderStateMixin yazıldı ve envanter opacity sorunu kesin çözüldü. | **Etki:** ItemRenderStateMixin.java, wims.mixins.json | **Silinen:** ItemRendererMixin.java
+- **Yapıldı:** remapJar görevi sonrasına, derlenen modu otomatik olarak Modrinth profillerine kopyalayan Gradle betiği entegre edildi. | **Etki:** build.gradle
+- **Yapıldı:** Hatalı ItemRenderStateMixin ve wrapVertexConsumers kaldırıldı; HandledScreenMixin doğrudan RenderSystem blending ile güncellendi. | **Etki:** src/main/resources/wims.mixins.json, src/main/java/dev/wims/mixin/HandledScreenMixin.java, src/main/java/dev/wims/WimsMod.java | **Silinen:** src/main/java/dev/wims/mixin/ItemRenderStateMixin.java
+- **Yapıldı:** 1.21.11 RenderSystem çökmesi çözüldü; RenderSystem bağımlılığı kaldırılarak opacity mantığı ItemRendererMixin ve VertexConsumer seviyesine taşındı. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java, src/main/java/dev/wims/mixin/ItemRendererMixin.java, src/main/resources/wims.mixins.json
+- **Yapıldı:** Kırılgan ModifyVariable mixin'i kaldırılarak yerine çok daha dayanıklı ve sürüm bağımsız Redirect tabanlı ItemRendererMixin yazıldı. | **Etki:** src/main/java/dev/wims/mixin/ItemRendererMixin.java
+- **Yapıldı:** Refmap eksikliğinden kaynaklanan 1.21.11 production çökmesi, Yarn ve Intermediary için require=0 içeren ikili Redirect tasarımıyla tamamen çözüldü. | **Etki:** src/main/java/dev/wims/mixin/ItemRendererMixin.java, src/main/resources/wims.mixins.json
+- **Yapıldı:** Şeffaflık çalışmayan durumlar için ghost slotlara özel karartma/dimming overlay efekti (context.fill) eklendi. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
+- **Yapıldı:** HandledScreenMixin'deki 1.21.4 enjeksiyonu intermediary method adına geri döndürülerek fatal crash hatası düzeltildi. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
+- **Yapıldı:** 1.21.4'te RenderSystem eşya şeffaflığı geri getirildi; 1.21.11 enjeksiyonunda ise sadece envanter arka plan karartma overlay (context.fill) bırakılarak ayrıştırıldı. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
+
+
+
 
 

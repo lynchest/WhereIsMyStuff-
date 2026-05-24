@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/badge/Modrinth-v0.1.0-green.svg" alt="Modrinth">
   </a>
   <a href="https://minecraft.net/">
-    <img src="https://img.shields.io/badge/Minecraft-1.21.4-blue.svg" alt="Minecraft">
+    <img src="https://img.shields.io/badge/Minecraft-1.21.4--1.21.11-blue.svg" alt="Minecraft">
   </a>
   <a href="https://fabricmc.net/">
     <img src="https://img.shields.io/badge/Fabric-Loader-lightgrey.svg" alt="Fabric">
@@ -94,7 +94,7 @@ Many mods attempt to solve death recovery, but they either change vanilla gamepl
 
 Getting started is quick and easy:
 
-1.  Make sure you are running Minecraft **1.21.4**.
+1.  Make sure you are running Minecraft **1.21.4 - 1.21.11**.
 2.  Install [Fabric Loader](https://fabricmc.net/) (0.16.9 or newer).
 3.  Download and place the [Fabric API](https://modrinth.com/mod/fabric-api) jar in your `mods` folder.
 4.  Drop the `whereismystuff-0.1.0.jar` into your `mods` folder and enjoy!
@@ -104,7 +104,7 @@ Getting started is quick and easy:
 ## 🏷️ Search Keywords & Tags
 
 *   **Categories:** QoL (Quality of Life), Utility, Inventory, Client-side
-*   **Keywords:** death cache, death inventory, corpse finder, keep inventory alternative, client-side gravestone, visual death recovery, slot helper, fabric death mod, lost item tracker, minecraft 1.21.4 client mods
+*   **Keywords:** death cache, death inventory, corpse finder, keep inventory alternative, client-side gravestone, visual death recovery, slot helper, fabric death mod, lost item tracker, minecraft 1.21 client mods
 
 ---
 

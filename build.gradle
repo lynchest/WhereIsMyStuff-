@@ -80,3 +80,25 @@ publishing {
 		// retrieving dependencies.
 	}
 }
+
+tasks.named('remapJar') {
+	doLast {
+		def jarFile = archiveFile.get().asFile
+		def destDirs = [
+			"/Users/lynchest/Library/Application Support/ModrinthApp/profiles/ModDeneme/mods/",
+			"/Users/lynchest/Library/Application Support/ModrinthApp/profiles/Mod deneme 1.21.11/mods/"
+		]
+		destDirs.each { dirPath ->
+			def destDir = file(dirPath)
+			if (destDir.exists()) {
+				copy {
+					from jarFile
+					into destDir
+				}
+				println "[WIMS-Build] Automatically copied compiled jar to: ${dirPath}"
+			} else {
+				println "[WIMS-Build] Skipping non-existent Modrinth directory: ${dirPath}"
+			}
+		}
+	}
+}

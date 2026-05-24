@@ -2,7 +2,7 @@
 
 ## Status: 🟡 Phase 4 Completed
 
-**Target:** Minecraft 1.21.4 · Fabric · Java 21  
+**Target:** Minecraft 1.21.4 - 1.21.11 · Fabric · Java 21  
 **Goal:** Çalışan bir mod yap, Modrinth'e yükle. Sürüm desteği sonra.
 
 ---

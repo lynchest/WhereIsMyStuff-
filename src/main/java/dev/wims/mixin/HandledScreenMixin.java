@@ -1,6 +1,5 @@
 package dev.wims.mixin;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.wims.WimsMod;
 import dev.wims.cache.DeathInventoryCache;
 import net.fabricmc.api.EnvType;
@@ -12,49 +11,57 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
- * Mixin to render ghost items in empty player inventory slots under client-side.
- */
 @Environment(EnvType.CLIENT)
 @Mixin(HandledScreen.class)
 public abstract class HandledScreenMixin {
 
-    @Inject(method = "drawSlot", at = @At("TAIL"))
-    private void renderGhostItem(DrawContext context, Slot slot, CallbackInfo ci) {
-        if (DeathInventoryCache.isEmpty()) {
-            return;
-        }
+    // 1.21.4 — drawSlot(DrawContext, Slot)
+    @Inject(method = "method_2385(Lnet/minecraft/class_332;Lnet/minecraft/class_1735;)V", at = @At("TAIL"), require = 0, remap = false)
+    private void drawSlot_1_21_4(DrawContext context, Slot slot, CallbackInfo ci) {
+        if (DeathInventoryCache.isEmpty() || slot.hasStack()) return;
+        if (!(slot.inventory instanceof PlayerInventory)) return;
 
-        if (slot.hasStack()) {
-            return;
-        }
-        if (!(slot.inventory instanceof PlayerInventory)) {
-            return;
-        }
+        ItemStack ghost = DeathInventoryCache.get(slot.getIndex());
+        if (ghost == null || ghost.isEmpty()) return;
 
-        int slotId = slot.getIndex();
+        MinecraftClient client = MinecraftClient.getInstance();
 
-        if (!DeathInventoryCache.has(slotId)) {
-            return;
-        }
-
-        ItemStack ghost = DeathInventoryCache.get(slotId);
-
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShaderColor(1f, 1f, 1f, 0.35f);
+        // 1.21.4 Transparency rendering using RenderSystem
+        com.mojang.blaze3d.systems.RenderSystem.enableBlend();
+        com.mojang.blaze3d.systems.RenderSystem.defaultBlendFunc();
+        com.mojang.blaze3d.systems.RenderSystem.setShaderColor(1f, 1f, 1f, 0.35f);
 
         WimsMod.renderingGhostItem = true;
-        MinecraftClient client = MinecraftClient.getInstance();
         context.drawItem(ghost, slot.x, slot.y);
         context.drawStackOverlay(client.textRenderer, ghost, slot.x, slot.y);
         context.draw();
         WimsMod.renderingGhostItem = false;
 
-        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+        com.mojang.blaze3d.systems.RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+    }
+
+    // 1.21.11 — drawSlot(DrawContext, Slot, int, int)
+    @Inject(method = "method_2385(Lnet/minecraft/class_332;Lnet/minecraft/class_1735;II)V", at = @At("TAIL"), require = 0, remap = false)
+    private void drawSlot_1_21_11(DrawContext context, Slot slot, int x, int y, CallbackInfo ci) {
+        if (DeathInventoryCache.isEmpty() || slot.hasStack()) return;
+        if (!(slot.inventory instanceof PlayerInventory)) return;
+
+        ItemStack ghost = DeathInventoryCache.get(slot.getIndex());
+        if (ghost == null || ghost.isEmpty()) return;
+
+        MinecraftClient client = MinecraftClient.getInstance();
+
+        // 1.21.11 Rendering — No RenderSystem changes, no ItemRendererMixin (renderingGhostItem is false)
+        context.drawItem(ghost, slot.x, slot.y);
+        
+        // Draw the dark dimming overlay to indicate a ghost slot on 1.21.11
+        context.fill(slot.x, slot.y, slot.x + 16, slot.y + 16, 0x8C000000);
+        
+        context.drawStackOverlay(client.textRenderer, ghost, slot.x, slot.y);
     }
 }
