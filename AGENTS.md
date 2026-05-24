@@ -23,7 +23,7 @@ Multi-version support is explicitly out of scope until after v0.1.0 is released 
 - **Never write to disk.** DeathInventoryCache is in-memory only.
 - **Do not add config files or config screens** for MVP. All constants are hardcoded.
 - **Ghost opacity is fixed at 0.35f.** Do not parameterize it.
-- **Always update [MEMORIES.md](file:///Users/lynchest/Desktop/WhereIsMyStuff?/MEMORIES.md) after every CRITICAL change.** Follow the rule: Keep entries extremely brief ("What was done?" and "Where was affected?") with no comments or long explanations to maximize context efficiency.
+- **Always update [MEMORIES.md](file:///Users/lynchest/Desktop/WhereIsMyStuff?/MEMORIES.md) after every CRITICAL change.** Follow the rule: Keep entries extremely brief on a single line matching the format: `- **Yapıldı:** [Very brief Turkish explanation] | **Etki:** [Relative file paths/names (no file:/// or absolute paths)]` to maximize context and token efficiency.
 
 ---
 
