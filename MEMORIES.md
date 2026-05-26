@@ -89,6 +89,8 @@
 - **Yapıldı:** Markdown (.md) belgelerinden dosya boyutu (KB) bilgileri kaldırılarak "lightweight" ifadesiyle değiştirildi. | **Etki:** README.md, README_CURSEFORGE.md, CHANGELOG.md
 - **Yapıldı:** IDE uyarıları (resource leak ve kullanılmayan import) giderildi. | **Etki:** DeathScreenMixin.java, HandledScreenMixin.java
 - **Yapıldı:** 1.21.5+ sürümlerinde isCreative() metodunun intermediary adının değişmesinden kaynaklanan NoSuchMethodError çöküşü yansıtmalı (reflection) kontrolle giderildi. | **Etki:** src/main/java/dev/wims/cache/DeathInventoryCache.java, src/main/java/dev/wims/mixin/DeathScreenMixin.java
+- **Yapıldı:** CI derleme ve test aşamasında Java 25 uyumsuzluğunu (class file major version 69) çözmek için JDK sürümü 21'e sabitlendi. | **Etki:** .github/workflows/build.yml
+- **Yapıldı:** CI derleme hızını artırmak için Gradle önbelleği eklendi, hata durumunda test loglarını yakalayan adım tanımlandı. | **Etki:** .github/workflows/build.yml
 
 
 
