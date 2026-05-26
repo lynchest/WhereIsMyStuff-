@@ -77,7 +77,7 @@ Many mods attempt to solve death recovery, but they either change vanilla gamepl
 *   **🔀 Occupant Relocation (Auto-Swap):** If a ghost slot gets occupied by another item before recovery (e.g. picking up dirt first), picking up the correct item later will **automatically relocate** the temporary occupant to another empty slot, restoring the correct item to its rightful original slot!
 *   **🔄 Partial Recovery Support:** Ghost indicators stay visible until the full stack count is recovered. Got back only 2 of your 5 lost diamonds? The ghost item remains with count `3` until they are all recovered!
 *   **⚡ High Performance:** Purely client-side, event-driven, and highly optimized. Features clean, on-demand mixin hooks to guarantee zero per-tick overhead or FPS stutter.
-*   **🪶 Featherweight Footprint:** The entire compiled jar size is **only ~67 KB**! Utilizing custom pixel-perfect color-quantized asset compression, WIMS provides top-tier visual convenience without bloating your modpack or increasing launch times.
+*   **🪶 Featherweight Footprint:** The entire compiled jar size is **only ~78 KB**! Utilizing custom pixel-perfect color-quantized asset compression, WIMS provides top-tier visual convenience without bloating your modpack or increasing launch times.
 *   **🔒 In-Memory Security:** Death snapshots are stored purely in memory. No disk clutter, no temporary file footprint, safe, temporary, and clean.
 
 ---

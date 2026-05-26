@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **1.21.11 Launch Crash:** Fixed a `ClassCastException` crash during startup on Minecraft 1.21.11 by replacing class-loading class checks with non-classloading `ClassLoader.getResource` classpath checks inside `WimsMixinConfigPlugin`.
 - **1.21.6 Compilation:** Fixed compilation failure on 1.21.6 caused by mapping differences in `DrawContext.draw` by introducing dynamic reflection-based execution.
 
+### Added
+- **Compatibility Verification:** Confirmed and verified full runtime stability on Minecraft versions `1.21.8`, `1.21.9`, `1.21.10`, and `1.21.11` via manual tests and automated builds.
+
 ## [0.1.1] - 2026-05-25
 
 ### Optimized
