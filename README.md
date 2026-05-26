@@ -99,14 +99,16 @@ While WIMS is programmatically compatible with the entire range of Minecraft ver
 
 | Version | Status | Compatibility |
 | :--- | :---: | :---: |
-| **1.21.4 - 1.21.11** | **Stable** | ⭐ Verified |
+| **1.21.4** | **Stable** | ⭐ Verified |
+| **1.21.5 - 1.21.7** | **Dev / Partial** | 🧪 Partially Tested |
+| **1.21.8 - 1.21.11** | **Stable** | ⭐ Verified |
 
 ### 🚀 Setup
 
 1.  Make sure you are running a supported Minecraft version from the list above.
 2.  Install [Fabric Loader](https://fabricmc.net/) (0.16.9 or newer).
 3.  Download and place the [Fabric API](https://modrinth.com/mod/fabric-api) jar in your `mods` folder.
-4.  Drop the `whereismystuff-0.1.2.jar` into your `mods` folder and enjoy!
+4.  Drop the `whereismystuff-0.1.0.jar` into your `mods` folder and enjoy!
 
 ---
 

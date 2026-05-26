@@ -78,3 +78,4 @@
 - **Yapıldı:** CurseForge README dosyası güncel sürüme uyarlandı, indirme/lisans bağlantıları düzenlendi ve bot filtresine karşı keywords güncellendi. | **Etki:** README_CURSEFORGE.md
 - **Yapıldı:** 1.21.11 ClassCastException çöküşü (Class.forName) ve 1.21.4-1.21.6 şeffaflık/derleme sorunları classloader getResource ve yansıtıcı draw() ile giderildi. | **Etki:** src/main/java/dev/wims/mixin/WimsMixinConfigPlugin.java, src/main/java/dev/wims/mixin/HandledScreenMixin.java
 - **Yapıldı:** drawForeground yerine dual-injection drawSlot yapısına geri dönülerek hayalet eşya görünmezliği düzeltildi. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
+- **Yapıldı:** 1.21.8 sürümü manuel olarak test edildi ve doğrulanmış (Verified) olarak işaretlendi. | **Etki:** README.md, README_CURSEFORGE.md, TESTED-VERSİONS.md
