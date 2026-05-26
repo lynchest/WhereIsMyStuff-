@@ -5,6 +5,18 @@ All notable changes to the WhereIsMyStuff? (WIMS) mod will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2026-05-26
+
+### Added
+- **Internationalization (i18n):** Added full support for 5 languages: English, Turkish, German, Spanish, and French. All chat messages and keybind labels are now translatable.
+- **Hotbar HUD Rendering:** Ghost items now appear directly on your hotbar (HUD) when you are not in a menu, making it easier to see what items you are missing while exploring.
+- **Spectator Mode Support:** Added compatibility for Spectator mode; ghost items are now automatically hidden when in spectator mode to prevent HUD clutter.
+- **Pulsating HUD Effect:** Added a subtle pulsating background animation for ghost slots on the hotbar to improve visibility.
+
+### Changed
+- **Mod Status:** Promoted to stable version 1.0.0.
+- **Localization:** Migrated all hardcoded strings to language files.
+
 ## [0.1.3] - 2026-05-26
 
 ### Added

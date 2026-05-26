@@ -39,6 +39,8 @@ public final class DeathInventoryCache {
 
     private static java.lang.reflect.Method isCreativeMethod = null;
     private static boolean checkedIsCreative = false;
+    private static java.lang.reflect.Method isSpectatorMethod = null;
+    private static boolean checkedIsSpectator = false;
 
     /**
      * Reflectively check if the player is in Creative Mode.
@@ -65,6 +67,34 @@ public final class DeathInventoryCache {
         // Fallback: check capabilities/abilities if reflection fails
         try {
             return player.getAbilities().creativeMode;
+        } catch (Throwable ignored) {}
+        return false;
+    }
+
+    /**
+     * Reflectively check if the player is in Spectator Mode.
+     * This avoids NoSuchMethodError across Minecraft subversions.
+     */
+    public static boolean isPlayerSpectator(net.minecraft.entity.player.PlayerEntity player) {
+        if (player == null) return false;
+        if (!checkedIsSpectator) {
+            checkedIsSpectator = true;
+            for (String name : new String[]{"isSpectator", "method_7338"}) {
+                try {
+                    isSpectatorMethod = net.minecraft.entity.player.PlayerEntity.class.getMethod(name);
+                    isSpectatorMethod.setAccessible(true);
+                    break;
+                } catch (NoSuchMethodException ignored) {}
+            }
+        }
+        if (isSpectatorMethod != null) {
+            try {
+                return (Boolean) isSpectatorMethod.invoke(player);
+            } catch (Exception ignored) {}
+        }
+        // Fallback
+        try {
+            return player.isSpectator();
         } catch (Throwable ignored) {}
         return false;
     }

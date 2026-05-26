@@ -52,7 +52,7 @@ public class WimsModClient implements ClientModInitializer {
             while (clearCacheKey.wasPressed()) {
                 if (!DeathInventoryCache.isEmpty()) {
                     DeathInventoryCache.reset();
-                    client.player.sendMessage(net.minecraft.text.Text.literal("§c[WIMS] Hayalet envanter hafızası temizlendi!"), true);
+                    client.player.sendMessage(net.minecraft.text.Text.translatable("chat.whereismystuff.cleared"), true);
                     client.player.playSound(net.minecraft.sound.SoundEvents.ENTITY_PLAYER_LEVELUP, 0.45f, 0.5f);
                 }
             }
@@ -97,7 +97,7 @@ public class WimsModClient implements ClientModInitializer {
 
                 if (DeathInventoryCache.isEmpty() && hadItemsBefore) {
                     client.player.playSound(net.minecraft.sound.SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, 0.5f, 1.8f);
-                    client.player.sendMessage(net.minecraft.text.Text.literal("§6★ Tüm kayıp eşyaların kurtarıldı! ★"), true);
+                    client.player.sendMessage(net.minecraft.text.Text.translatable("chat.whereismystuff.recovered"), true);
                 }
             }
 

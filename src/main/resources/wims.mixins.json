@@ -8,7 +8,8 @@
 		"HandledScreenMixin",
 		"ItemRendererMixin",
 		"GuiRenderStateMixin",
-		"GuiRendererMixin"
+		"GuiRendererMixin",
+		"InGameHudMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

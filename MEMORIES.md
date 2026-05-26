@@ -91,6 +91,10 @@
 - **Yapıldı:** 1.21.5+ sürümlerinde isCreative() metodunun intermediary adının değişmesinden kaynaklanan NoSuchMethodError çöküşü yansıtmalı (reflection) kontrolle giderildi. | **Etki:** src/main/java/dev/wims/cache/DeathInventoryCache.java, src/main/java/dev/wims/mixin/DeathScreenMixin.java
 - **Yapıldı:** CI derleme ve test aşamasında Java 25 uyumsuzluğunu (class file major version 69) çözmek için JDK sürümü 21'e sabitlendi. | **Etki:** .github/workflows/build.yml
 - **Yapıldı:** CI derleme hızını artırmak için Gradle önbelleği eklendi, hata durumunda test loglarını yakalayan adım tanımlandı. | **Etki:** .github/workflows/build.yml
+- **Yapıldı:** Mod sürümü 1.0.0'a yükseltildi, mesajlar çeviri anahtarlarına taşındı. | **Etki:** gradle.properties, WimsModClient.java
+- **Yapıldı:** Farklı sürümler için reflektif Spectator modu kontrolü eklendi. | **Etki:** DeathInventoryCache.java
+- **Yapıldı:** Hayalet eşyaların Hotbar üzerinde HUD olarak render edilmesi sağlandı (InGameHudMixin). | **Etki:** InGameHudMixin.java, wims.mixins.json
+- **Yapıldı:** Almanca, İngilizce, İspanyolca, Fransızca ve Türkçe dil dosyaları eklendi. | **Etki:** src/main/resources/assets/whereismystuff/lang/
 
 
 
