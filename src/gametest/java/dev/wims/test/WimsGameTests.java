@@ -40,6 +40,28 @@ public class WimsGameTests {
         helper.complete();
     }
 
+    @GameTest(templateName = "fabric-gametest-api-v1:empty")
+    public void testCreativeModeBypass(TestContext helper) {
+        // Obtain PlayerInventory from a mock player in CREATIVE mode
+        PlayerInventory inventory = helper.createMockPlayer(net.minecraft.world.GameMode.CREATIVE).getInventory();
+        
+        // Put 5 diamonds in slot 9
+        ItemStack diamondStack = new ItemStack(Items.DIAMOND, 5);
+        inventory.setStack(9, diamondStack);
+        
+        // Try to save snapshot
+        DeathInventoryCache.reset();
+        DeathInventoryCache.saveSnapshot(inventory);
+        
+        // Verify no snapshot was saved
+        DeathInventoryCache.freezeSnapshot();
+        assertFalse(DeathInventoryCache.has(9), "Cache should NOT have item at slot 9 for creative player");
+        assertTrue(DeathInventoryCache.isEmpty(), "Cache should be empty for creative player");
+        
+        // Mark test as succeeded
+        helper.complete();
+    }
+
     private void assertTrue(boolean condition, String message) {
         if (!condition) {
             throw new RuntimeException(message);

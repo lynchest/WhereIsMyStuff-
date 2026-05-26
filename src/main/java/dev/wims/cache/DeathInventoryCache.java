@@ -37,6 +37,38 @@ public final class DeathInventoryCache {
     //  Snapshot — rolling backup (updated every alive tick)
     // ──────────────────────────────────────────────────────────
 
+    private static java.lang.reflect.Method isCreativeMethod = null;
+    private static boolean checkedIsCreative = false;
+
+    /**
+     * Reflectively check if the player is in Creative Mode.
+     * This avoids NoSuchMethodError across Minecraft 1.21.x subversions (e.g. 1.21.4 vs 1.21.5+)
+     * since the intermediary name of isCreative() changed from method_7337 to method_68878.
+     */
+    public static boolean isPlayerCreative(net.minecraft.entity.player.PlayerEntity player) {
+        if (player == null) return false;
+        if (!checkedIsCreative) {
+            checkedIsCreative = true;
+            for (String name : new String[]{"isCreative", "method_7337", "method_68878"}) {
+                try {
+                    isCreativeMethod = net.minecraft.entity.player.PlayerEntity.class.getMethod(name);
+                    isCreativeMethod.setAccessible(true);
+                    break;
+                } catch (NoSuchMethodException ignored) {}
+            }
+        }
+        if (isCreativeMethod != null) {
+            try {
+                return (Boolean) isCreativeMethod.invoke(player);
+            } catch (Exception ignored) {}
+        }
+        // Fallback: check capabilities/abilities if reflection fails
+        try {
+            return player.getAbilities().creativeMode;
+        } catch (Throwable ignored) {}
+        return false;
+    }
+
     /**
      * Takes a deep-copy snapshot of the player's current inventory.
      * Called every tick while the player is alive.
@@ -45,6 +77,9 @@ public final class DeathInventoryCache {
      */
     public static void saveSnapshot(PlayerInventory inventory) {
         if (inventory == null) return;
+        if (inventory.player != null && isPlayerCreative(inventory.player)) {
+            return;
+        }
 
         // 1. Scan and collect the current inventory items without copying first (to avoid GC allocations)
         // We check if the current layout differs from the latest snapshot in the history.

@@ -5,6 +5,12 @@ All notable changes to the WhereIsMyStuff? (WIMS) mod will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.3] - 2026-05-26
+
+### Added
+- **Creative Mode Bypass:** Added logic to automatically skip saving and freezing inventory snapshots for players in Creative mode, preventing unnecessary ghost slot rendering on death.
+- **Integration Testing:** Added `testCreativeModeBypass` to the automated GameTest suite to verify that creative mode players are correctly ignored by the caching system.
+
 ## [0.1.2] - 2026-05-26
 
 ### Fixed
@@ -38,4 +44,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Dual-Phase Death Protection:** Secure race-condition handling utilizing snapshot protection alongside specialized death screen interceptors.
 - **Vanilla Server Compatibility:** 100% client-side implementation which runs seamlessly on vanilla servers, realms, and LAN.
 - **Asset Integration:** Premium mod icon (`icon.png` 512x512) and README showcasing screenshots and design.
-- **Featherweight Footprint Optimization:** Extremely lightweight code and pixel-perfect Nearest Neighbor color asset compression resulting in a tiny ~57 KB compiled jar.
+- **Featherweight Footprint Optimization:** Extremely lightweight code and pixel-perfect Nearest Neighbor color asset compression resulting in a lightweight compiled jar.

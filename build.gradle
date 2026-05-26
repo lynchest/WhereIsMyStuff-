@@ -96,7 +96,8 @@ tasks.named('remapJar') {
 			"${userHome}/Library/Application Support/ModrinthApp/profiles/1.21.8/mods/",
 			"${userHome}/Library/Application Support/ModrinthApp/profiles/1.21.7/mods/",
 			"${userHome}/Library/Application Support/ModrinthApp/profiles/1.21.6/mods/",
-			"${userHome}/Library/Application Support/ModrinthApp/profiles/1.21.5/mods/"
+			"${userHome}/Library/Application Support/ModrinthApp/profiles/1.21.5/mods/",
+			"${userHome}/Library/Application Support/ModrinthApp/profiles/1.21/mods/"
 		]
 		destDirs.each { dirPath ->
 			def destDir = file(dirPath)

@@ -24,7 +24,8 @@ Many mods attempt to solve death recovery, but they either change vanilla gamepl
 * **🔀 Occupant Relocation (Auto-Swap):** If a ghost slot gets occupied by another item before recovery (e.g. picking up dirt first), picking up the correct item later will **automatically relocate** the temporary occupant to another empty slot, restoring the correct item to its rightful original slot!
 * **🔄 Partial Recovery Support:** Ghost indicators stay visible until the full stack count is recovered. Got back only 2 of your 5 lost diamonds? The ghost item remains with count `3` until they are all recovered!
 * **⚡ High Performance:** Purely client-side, event-driven, and highly optimized. Features clean, on-demand mixin hooks to guarantee zero per-tick overhead or FPS stutter.
-* **🪶 Featherweight Footprint:** The entire compiled jar size is **only ~67 KB**! Utilizing custom pixel-perfect color-quantized asset compression, WIMS provides top-tier visual convenience without bloating your modpack or increasing launch times.
+* **🪶 Featherweight Footprint:** Extremely lightweight compiled jar! Utilizing custom pixel-perfect color-quantized asset compression, WIMS provides top-tier visual convenience without bloating your modpack or increasing launch times.
+* **✨ Creative Mode Bypass:** Automatically skips caching your inventory if you die in Creative mode, keeping your ghost slots completely clean from testing or building deaths.
 * **🔒 In-Memory Security:** Death snapshots are stored purely in memory. No disk clutter, no temporary file footprint, safe, temporary, and clean.
 
 ---
@@ -43,6 +44,8 @@ While WIMS is programmatically compatible with the entire range of Minecraft ver
 
 | Version | Status | Compatibility |
 | :--- | :---: | :---: |
+| `1.21` | **Stable** | ⭐ Verified |
+| `1.21.1` - `1.21.3` | **Dev / Partial** | 🧪 Partially Tested |
 | `1.21.4` | **Stable** | ⭐ Verified |
 | `1.21.5` - `1.21.7` | **Dev / Partial** | 🧪 Partially Tested |
 | `1.21.8` - `1.21.11` | **Stable** | ⭐ Verified |
@@ -51,7 +54,7 @@ While WIMS is programmatically compatible with the entire range of Minecraft ver
 1. Make sure you are running a supported Minecraft version from the list above.
 2. Install [Fabric Loader](https://fabricmc.net/) (`0.16.9` or newer).
 3. Download and place the [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api) jar in your `mods` folder.
-4. Drop the `whereismystuff-0.1.1.jar` into your `mods` folder and enjoy!
+4. Drop the `whereismystuff-0.1.3.jar` into your `mods` folder and enjoy!
 
 ---
 

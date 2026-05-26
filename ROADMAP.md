@@ -32,7 +32,7 @@
 
 **Goal:** Fix edge cases found after initial user feedback.
 
-- [ ] Handle death in creative mode (skip cache or show warning)
+- [x] Handle death in creative mode (skip cache or show warning)
 - [ ] Handle `/clear` command erasing items from inventory mid-tracking
 - [x] Graceful behavior when cache slot ID doesn't match current screen's slot layout
 - [x] Add keybind to manually clear ghost cache (`WIMS: Clear Ghost Memory`)

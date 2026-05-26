@@ -26,6 +26,10 @@ public class DeathScreenMixin {
     @Inject(method = "setScreen", at = @At("HEAD"))
     private void onSetScreen(Screen screen, CallbackInfo ci) {
         if (screen instanceof DeathScreen) {
+            if (((MinecraftClient) (Object) this).player != null && DeathInventoryCache.isPlayerCreative(((MinecraftClient) (Object) this).player)) {
+                dev.wims.WimsMod.log("DeathScreen detected but player is in creative mode. Skipping inventory freeze.");
+                return;
+            }
             dev.wims.WimsMod.log("DeathScreen detected! Freezing inventory snapshot.");
             DeathInventoryCache.freezeSnapshot();
         }

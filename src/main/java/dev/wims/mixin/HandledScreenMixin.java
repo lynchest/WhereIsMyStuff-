@@ -8,7 +8,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -79,7 +78,7 @@ public abstract class HandledScreenMixin {
             context.fill(slot.x + 15, slot.y + 1, slot.x + 16, slot.y + 15, borderColor);
 
             context.drawItem(ghost, slot.x, slot.y);
-            context.drawStackOverlay(MinecraftClient.getInstance().textRenderer, ghost, slot.x, slot.y);
+            invokeDrawStackOverlay(context, MinecraftClient.getInstance().textRenderer, ghost, slot.x, slot.y);
 
             // To fix transparency in immediate-mode rendering, flush the draw context buffer
             try {
@@ -99,6 +98,29 @@ public abstract class HandledScreenMixin {
             }
         } finally {
             dev.wims.WimsMod.renderingGhostItem = false;
+        }
+    }
+
+    private static java.lang.reflect.Method drawStackOverlayMethod = null;
+    private static boolean checkedDrawStackOverlay = false;
+
+    private static void invokeDrawStackOverlay(DrawContext context, net.minecraft.client.font.TextRenderer textRenderer, ItemStack stack, int x, int y) {
+        if (!checkedDrawStackOverlay) {
+            checkedDrawStackOverlay = true;
+            for (String mName : new String[]{"drawStackOverlay", "drawItemInSlot", "method_51431"}) {
+                try {
+                    drawStackOverlayMethod = DrawContext.class.getMethod(mName, net.minecraft.client.font.TextRenderer.class, ItemStack.class, int.class, int.class);
+                    drawStackOverlayMethod.setAccessible(true);
+                    break;
+                } catch (NoSuchMethodException ignored) {}
+            }
+        }
+        if (drawStackOverlayMethod != null) {
+            try {
+                drawStackOverlayMethod.invoke(context, textRenderer, stack, x, y);
+            } catch (Exception e) {
+                // Ignore invocation failures
+            }
         }
     }
 

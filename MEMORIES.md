@@ -81,3 +81,15 @@
 - **Yapıldı:** 1.21.8 sürümü manuel olarak test edildi ve doğrulanmış (Verified) olarak işaretlendi. | **Etki:** README.md, README_CURSEFORGE.md, TESTED-VERSİONS.md
 - **Yapıldı:** CHANGELOG.md dosyası 1.21.8 - 1.21.11 arası doğrulanan sürümlerle güncellendi. | **Etki:** CHANGELOG.md
 - **Yapıldı:** README dosyalarındaki iddialı stabilite ifadesi daha makul bir dile dönüştürüldü. | **Etki:** README.md, README_CURSEFORGE.md
+- **Yapıldı:** Modun Minecraft destek aralığı 1.21 - 1.21.11 olarak genişletildi. | **Etki:** src/main/resources/fabric.mod.json
+- **Yapıldı:** Sadece temel 1.21 sürümü doğrulandı olarak işaretlendi; 1.21.1-1.21.3 sürümleri ise kısmen test edilmiş (Dev) listesine alındı. | **Etki:** README.md, README_CURSEFORGE.md, TESTED-VERSİONS.md
+- **Yapıldı:** Envanter test/doğrulama betiği olan verify_all.sh dosyasına 1.21, 1.21.1, 1.21.2 ve 1.21.3 sürümleri eklendi. | **Etki:** verify_all.sh
+- **Yapıldı:** 1.21 (drawItemInSlot) ve 1.21.4+ (drawStackOverlay) arasındaki metod ismi uyumsuzluğu yansıtmalı (reflection) çağrı ile çözüldü. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
+- **Yapıldı:** Creative mod ölümlerinde hayalet envanter oluşumunu engelleyen bypass mantığı ve testi eklendi; sürüm 0.1.3'e yükseltildi. | **Etki:** src/main/java/dev/wims/cache/DeathInventoryCache.java, src/main/java/dev/wims/mixin/DeathScreenMixin.java, src/gametest/java/dev/wims/test/WimsGameTests.java, gradle.properties, ROADMAP.md, CHANGELOG.md
+- **Yapıldı:** Markdown (.md) belgelerinden dosya boyutu (KB) bilgileri kaldırılarak "lightweight" ifadesiyle değiştirildi. | **Etki:** README.md, README_CURSEFORGE.md, CHANGELOG.md
+- **Yapıldı:** IDE uyarıları (resource leak ve kullanılmayan import) giderildi. | **Etki:** DeathScreenMixin.java, HandledScreenMixin.java
+- **Yapıldı:** 1.21.5+ sürümlerinde isCreative() metodunun intermediary adının değişmesinden kaynaklanan NoSuchMethodError çöküşü yansıtmalı (reflection) kontrolle giderildi. | **Etki:** src/main/java/dev/wims/cache/DeathInventoryCache.java, src/main/java/dev/wims/mixin/DeathScreenMixin.java
+
+
+
+
