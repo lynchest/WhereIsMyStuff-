@@ -2,11 +2,13 @@
 	"required": true,
 	"package": "dev.wims.mixin",
 	"compatibilityLevel": "JAVA_21",
+	"plugin": "dev.wims.mixin.WimsMixinConfigPlugin",
 	"client": [
 		"DeathScreenMixin",
 		"HandledScreenMixin",
-		"InventorySyncMixin",
-		"ItemRendererMixin"
+		"ItemRendererMixin",
+		"GuiRenderStateMixin",
+		"GuiRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

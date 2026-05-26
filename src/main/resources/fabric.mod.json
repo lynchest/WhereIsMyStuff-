@@ -10,10 +10,16 @@
 	"contact": {},
 	"license": "GPL-3.0-only",
 	"icon": "assets/whereismystuff/icon.png",
-	"environment": "client",
+	"environment": "*",
 	"entrypoints": {
 		"main": [
 			"dev.wims.WimsMod"
+		],
+		"client": [
+			"dev.wims.WimsModClient"
+		],
+		"fabric-gametest": [
+			"dev.wims.test.WimsGameTests"
 		]
 	},
 	"mixins": [

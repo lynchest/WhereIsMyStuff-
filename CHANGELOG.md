@@ -5,6 +5,13 @@ All notable changes to the WhereIsMyStuff? (WIMS) mod will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2026-05-26
+
+### Fixed
+- **Ghost Item Invisibility:** Fixed a bug where ghost items were completely invisible on the inventory and container screens by reverting the rendering enjjection from `drawForeground` (which is overridden by screen subclasses) back to separate, cross-version safe `drawSlot` dual-injection hooks (`method_2385`) for 1.21.4 and 1.21.11.
+- **1.21.11 Launch Crash:** Fixed a `ClassCastException` crash during startup on Minecraft 1.21.11 by replacing class-loading class checks with non-classloading `ClassLoader.getResource` classpath checks inside `WimsMixinConfigPlugin`.
+- **1.21.6 Compilation:** Fixed compilation failure on 1.21.6 caused by mapping differences in `DrawContext.draw` by introducing dynamic reflection-based execution.
+
 ## [0.1.1] - 2026-05-25
 
 ### Optimized

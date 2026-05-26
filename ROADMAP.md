@@ -34,8 +34,8 @@
 
 - [ ] Handle death in creative mode (skip cache or show warning)
 - [ ] Handle `/clear` command erasing items from inventory mid-tracking
-- [ ] Graceful behavior when cache slot ID doesn't match current screen's slot layout
-- [ ] Add keybind to manually clear ghost cache (`WIMS: Clear Ghost Memory`)
+- [x] Graceful behavior when cache slot ID doesn't match current screen's slot layout
+- [x] Add keybind to manually clear ghost cache (`WIMS: Clear Ghost Memory`)
 - [ ] Basic config screen (opacity slider, toggle on/off)
 
 ---
@@ -44,8 +44,8 @@
 
 **Goal:** Make item recovery feel more satisfying.
 
-- [ ] Ghost fade-out animation when a slot is cleared
-- [ ] Small toast/notification: "All lost items recovered!" when cache empties completely
+- [x] Ghost fade-out animation when a slot is cleared
+- [x] Small toast/notification: "All lost items recovered!" when cache empties completely
 - [ ] Hotbar ghost rendering (show ghosts below hotbar when hotbar screen not open)
 - [ ] Optional: ghost item count renders in a distinct color (e.g. red) to distinguish from real items
 

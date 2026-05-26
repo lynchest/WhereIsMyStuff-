@@ -20,11 +20,14 @@ public final class DeathInventoryCache {
     /** The active ghost-item cache rendered on-screen. */
     private static final Map<Integer, ItemStack> CACHE = new HashMap<>();
 
-    /** Rolling snapshot of the player's inventory, updated every tick while alive. */
-    private static final Map<Integer, ItemStack> SNAPSHOT = new HashMap<>();
+    /** Rolling history of snapshots, keeping the last 3 ticks of inventory data to prevent death-sequence corruption. */
+    private static final java.util.LinkedList<Map<Integer, ItemStack>> SNAPSHOT_HISTORY = new java.util.LinkedList<>();
 
-    /** True if the SNAPSHOT has at least one item. */
-    private static boolean snapshotActive = false;
+    /** Active fading item cache for smooth slot removal animations. */
+    private static final Map<Integer, ItemStack> FADING_CACHE = new HashMap<>();
+
+    /** Fading alphas for active slot recovery animations. */
+    private static final Map<Integer, Float> FADE_ALPHAS = new HashMap<>();
 
     private DeathInventoryCache() {
         // Prevent instantiation
@@ -36,33 +39,71 @@ public final class DeathInventoryCache {
 
     /**
      * Takes a deep-copy snapshot of the player's current inventory.
-     * Called every tick while the player is alive and hasn't taken damage recently.
+     * Called every tick while the player is alive.
      *
      * @param inventory the player's inventory
      */
     public static void saveSnapshot(PlayerInventory inventory) {
         if (inventory == null) return;
 
-        // Copy items into a temporary map in a single pass.
-        // If empty, don't touch the snapshot. This prevents the race condition where slot-clear
-        // packets arrive before the health-update packet in a different network batch.
-        Map<Integer, ItemStack> temp = new HashMap<>();
-        for (int slotId = 0; slotId <= 40; slotId++) {
-            ItemStack stack = inventory.getStack(slotId);
-            if (stack != null && !stack.isEmpty()) {
-                temp.put(slotId, stack.copy());
+        // 1. Scan and collect the current inventory items without copying first (to avoid GC allocations)
+        // We check if the current layout differs from the latest snapshot in the history.
+        Map<Integer, ItemStack> latestSnapshot = SNAPSHOT_HISTORY.isEmpty() ? null : SNAPSHOT_HISTORY.getLast();
+        boolean hasChanged = latestSnapshot == null;
+
+        if (!hasChanged) {
+            // Compare current inventory with latest snapshot
+            for (int slotId = 0; slotId <= 40; slotId++) {
+                ItemStack current = inventory.getStack(slotId);
+                ItemStack cached = latestSnapshot.get(slotId);
+
+                boolean currentEmpty = current == null || current.isEmpty();
+                boolean cachedEmpty = cached == null || cached.isEmpty();
+
+                if (currentEmpty != cachedEmpty) {
+                    hasChanged = true;
+                    break;
+                }
+
+                if (!currentEmpty) {
+                    // Compare item, count, and NBT/components safely
+                    if (current == null || cached == null || current.getItem() != cached.getItem() 
+                            || current.getCount() != cached.getCount() 
+                            || !ItemStack.areEqual(current, cached)) {
+                        hasChanged = true;
+                        break;
+                    }
+                }
             }
         }
 
-        if (temp.isEmpty()) {
-            // Inventory is empty but player appears alive — don't overwrite.
-            // The snapshot from the last tick with items is still valid.
+        // If nothing has changed, push the latest snapshot map reference to maintain queue size without GC overhead
+        if (!hasChanged) {
+            SNAPSHOT_HISTORY.addLast(latestSnapshot);
+            if (SNAPSHOT_HISTORY.size() > 3) {
+                SNAPSHOT_HISTORY.removeFirst();
+            }
             return;
         }
 
-        SNAPSHOT.clear();
-        SNAPSHOT.putAll(temp);
-        snapshotActive = true;
+        // 2. Perform deep copy since a change was detected
+        Map<Integer, ItemStack> newSnapshot = new HashMap<>();
+        for (int slotId = 0; slotId <= 40; slotId++) {
+            ItemStack stack = inventory.getStack(slotId);
+            if (stack != null && !stack.isEmpty()) {
+                newSnapshot.put(slotId, stack.copy());
+            }
+        }
+
+        if (newSnapshot.isEmpty()) {
+            // Inventory is empty but player appears alive — don't overwrite/add empty snapshots
+            return;
+        }
+
+        SNAPSHOT_HISTORY.addLast(newSnapshot);
+        if (SNAPSHOT_HISTORY.size() > 3) {
+            SNAPSHOT_HISTORY.removeFirst();
+        }
     }
 
     // ──────────────────────────────────────────────────────────
@@ -74,14 +115,16 @@ public final class DeathInventoryCache {
      * Should be called exactly once when death is confirmed (e.g. DeathScreen opens).
      */
     public static void freezeSnapshot() {
-        WimsMod.log("freezeSnapshot called. snapshotActive = " + snapshotActive + ", snapshot size = " + SNAPSHOT.size());
-        if (!snapshotActive) {
-            WimsMod.log("freezeSnapshot: Snapshot is empty — nothing to freeze.");
+        WimsMod.log("freezeSnapshot called. snapshotHistory size = " + SNAPSHOT_HISTORY.size());
+        if (SNAPSHOT_HISTORY.isEmpty()) {
+            WimsMod.log("freezeSnapshot: Snapshot history is empty — nothing to freeze.");
             return;
         }
         CACHE.clear();
+        // Consume the oldest snapshot in our 3-tick history (which is pre-death)
+        Map<Integer, ItemStack> oldestSnapshot = SNAPSHOT_HISTORY.getFirst();
         int count = 0;
-        for (Map.Entry<Integer, ItemStack> entry : SNAPSHOT.entrySet()) {
+        for (Map.Entry<Integer, ItemStack> entry : oldestSnapshot.entrySet()) {
             CACHE.put(entry.getKey(), entry.getValue().copy());
             count++;
         }
@@ -99,7 +142,43 @@ public final class DeathInventoryCache {
      */
     public static void clearSlot(int slotId) {
         WimsMod.log("clearSlot: Cleared slot " + slotId);
-        CACHE.remove(slotId);
+        ItemStack removed = CACHE.remove(slotId);
+        if (removed != null && !removed.isEmpty()) {
+            FADING_CACHE.put(slotId, removed);
+            FADE_ALPHAS.put(slotId, 0.35f); // Start fading from standard ghost alpha (0.35)
+        }
+    }
+
+    /**
+     * Ticks down the alpha values of fading slots to animate slot recovery.
+     */
+    public static void tickFade() {
+        if (FADE_ALPHAS.isEmpty()) return;
+        java.util.Iterator<Map.Entry<Integer, Float>> iterator = FADE_ALPHAS.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Integer, Float> entry = iterator.next();
+            float nextAlpha = entry.getValue() - 0.05f; // Dissolve by 0.05 per tick (~7 ticks total fade)
+            if (nextAlpha <= 0f) {
+                iterator.remove();
+                FADING_CACHE.remove(entry.getKey());
+            } else {
+                entry.setValue(nextAlpha);
+            }
+        }
+    }
+
+    /**
+     * Retrieves the fading item stack for slot recovery animation.
+     */
+    public static ItemStack getFading(int slotId) {
+        return FADING_CACHE.getOrDefault(slotId, ItemStack.EMPTY);
+    }
+
+    /**
+     * Retrieves the current fade alpha value for slot recovery animation.
+     */
+    public static float getFadeAlpha(int slotId) {
+        return FADE_ALPHAS.getOrDefault(slotId, 0f);
     }
 
     /**
@@ -135,8 +214,10 @@ public final class DeathInventoryCache {
      */
     public static void reset() {
         CACHE.clear();
-        SNAPSHOT.clear();
-        snapshotActive = false;
+        SNAPSHOT_HISTORY.clear();
+        FADING_CACHE.clear();
+        FADE_ALPHAS.clear();
+        WimsMod.ghostRenderStates.clear();
     }
 
     /**

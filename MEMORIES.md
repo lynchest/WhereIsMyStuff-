@@ -72,4 +72,9 @@
 - **Yapıldı:** WimsMod'daki damageCooldown değişimi takibi logları ve kullanılmayan prevCooldown alanı silindi. | **Etki:** src/main/java/dev/wims/WimsMod.java
 - **Yapıldı:** Sürüm 0.1.1'e yükseltildi, CHANGELOG.md dosyası güncellendi. | **Etki:** gradle.properties, CHANGELOG.md
 - **Yapıldı:** Shadow client alanı refMap/Shadow uyuşmazlığı çökmesini çözmek için kaldırılıp yerine tekrar MinecraftClient.getInstance() yazıldı. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
-
+- **Yapıldı:** 1.21.9+ sürümlerindeki KeyBinding.Category özel sınıfı uyumsuzluğu, reflektif setAccessible ve getDeclaredConstructors kullanılarak giderildi. | **Etki:** src/main/java/dev/wims/WimsModClient.java
+- **Yapıldı:** 1.21.5+ sürümlerinde deferred GUI render yapısına geçişten kaynaklanan hayalet eşya saydamlık kaybı, GuiRendererMixin ve GuiRenderStateMixin ile çözüldü; ItemRendererMixin @Redirect hedefleri genişletildi. | **Etki:** src/main/java/dev/wims/mixin/GuiRendererMixin.java, src/main/java/dev/wims/mixin/GuiRenderStateMixin.java, src/main/java/dev/wims/mixin/WimsMixinConfigPlugin.java, src/main/java/dev/wims/mixin/ItemRendererMixin.java, src/main/java/dev/wims/WimsMod.java, src/main/java/dev/wims/cache/DeathInventoryCache.java, src/main/resources/wims.mixins.json
+- **Yapıldı:** Tamamlanan geliştirici görevleri yol haritasında işaretlendi. | **Etki:** ROADMAP.md
+- **Yapıldı:** CurseForge README dosyası güncel sürüme uyarlandı, indirme/lisans bağlantıları düzenlendi ve bot filtresine karşı keywords güncellendi. | **Etki:** README_CURSEFORGE.md
+- **Yapıldı:** 1.21.11 ClassCastException çöküşü (Class.forName) ve 1.21.4-1.21.6 şeffaflık/derleme sorunları classloader getResource ve yansıtıcı draw() ile giderildi. | **Etki:** src/main/java/dev/wims/mixin/WimsMixinConfigPlugin.java, src/main/java/dev/wims/mixin/HandledScreenMixin.java
+- **Yapıldı:** drawForeground yerine dual-injection drawSlot yapısına geri dönülerek hayalet eşya görünmezliği düzeltildi. | **Etki:** src/main/java/dev/wims/mixin/HandledScreenMixin.java
