@@ -96,7 +96,4 @@
 - **Yapıldı:** Hayalet eşyaların Hotbar üzerinde HUD olarak render edilmesi sağlandı (InGameHudMixin). | **Etki:** InGameHudMixin.java, wims.mixins.json
 - **Yapıldı:** Almanca, İngilizce, İspanyolca, Fransızca ve Türkçe dil dosyaları eklendi. | **Etki:** src/main/resources/assets/whereismystuff/lang/
 - **Yapıldı:** GitHub Actions'daki hatalı (v5, v6, v7) eylem sürümleri kararlı v4 sürümlerine çekilerek CI hatası giderildi. | **Etki:** .github/workflows/build.yml
-
-
-
-
+- **Yapıldı:** `gradle/actions/wrapper-validation@v4` bulunamayan SHA hatası `@v4.3.0` sürümüne sabitlenerek çözüldü. | **Etki:** .github/workflows/build.yml
