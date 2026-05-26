@@ -97,3 +97,4 @@
 - **Yapıldı:** Almanca, İngilizce, İspanyolca, Fransızca ve Türkçe dil dosyaları eklendi. | **Etki:** src/main/resources/assets/whereismystuff/lang/
 - **Yapıldı:** GitHub Actions'daki hatalı (v5, v6, v7) eylem sürümleri kararlı v4 sürümlerine çekilerek CI hatası giderildi. | **Etki:** .github/workflows/build.yml
 - **Yapıldı:** `gradle/actions/wrapper-validation@v4` bulunamayan SHA hatası `@v4.3.0` sürümüne sabitlenerek çözüldü. | **Etki:** .github/workflows/build.yml
+- **Yapıldı:** CI'da `actions/setup-java@v4` çözümlenemeyen SHA hatası ve tüm action'lar stabil sürümlere (checkout@v4.2.2, setup-java@v4.7.1, setup-gradle@v4.2.0, upload-artifact@v4.6.2) sabitlendi; wrapper-validation setup-gradle içine taşındı. | **Etki:** .github/workflows/build.yml
