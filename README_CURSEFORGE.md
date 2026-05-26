@@ -39,7 +39,7 @@ Many mods attempt to solve death recovery, but they either change vanilla gamepl
 
 ## 📦 Installation
 ### 🎮 Versions
-While WIMS is programmatically compatible with the entire range of Minecraft versions, we manually test specific major releases to guarantee absolute stability:
+While WIMS is programmatically compatible with the entire range of Minecraft versions, we manually test specific releases to ensure stability and compatibility:
 
 | Version | Status | Compatibility |
 | :--- | :---: | :---: |
