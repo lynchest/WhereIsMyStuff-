@@ -95,6 +95,7 @@
 - **Yapıldı:** Farklı sürümler için reflektif Spectator modu kontrolü eklendi. | **Etki:** DeathInventoryCache.java
 - **Yapıldı:** Hayalet eşyaların Hotbar üzerinde HUD olarak render edilmesi sağlandı (InGameHudMixin). | **Etki:** InGameHudMixin.java, wims.mixins.json
 - **Yapıldı:** Almanca, İngilizce, İspanyolca, Fransızca ve Türkçe dil dosyaları eklendi. | **Etki:** src/main/resources/assets/whereismystuff/lang/
+- **Yapıldı:** GitHub Actions'daki hatalı (v5, v6, v7) eylem sürümleri kararlı v4 sürümlerine çekilerek CI hatası giderildi. | **Etki:** .github/workflows/build.yml
 
 
 
