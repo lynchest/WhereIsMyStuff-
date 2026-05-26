@@ -12,14 +12,16 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
-      - name: validate gradle wrapper
-        uses: gradle/actions/wrapper-validation@v4.3.0
       - name: setup jdk
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'microsoft'
-          cache: 'gradle'
+      - name: setup gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          validate-wrappers: true
+          cache-disabled: false
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
       - name: build
